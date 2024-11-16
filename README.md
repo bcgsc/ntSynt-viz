@@ -1,6 +1,6 @@
 # ntSynt-viz: Visualizing ntSynt synteny blocks
 
-Here, we provide an easy-to-use pipline for generating ribbon plots combined with chromosome painting to visualize the output synteny blocks from ntSynt.
+Here, we provide an easy-to-use pipeline for generating ribbon plots combined with chromosome painting to visualize the output synteny blocks from ntSynt.
 
 This flexible pipeline implements numerous features, including:
 * Option to normalize the strands of input chromosomes, based on a target assembly
@@ -32,9 +32,9 @@ conda install --yes -c conda-forge -c bioconda quicktree r-base bioconductor-tre
 
 ### Usage
 ```
-usage: plot_gggenomes.py [-h] --blocks BLOCKS --fais FAIS [FAIS ...] [--name_conversion NAME_CONVERSION] [--tree TREE] [--target-genome TARGET_GENOME] [--normalize]
-                         [--indel INDEL] [--length LENGTH] [--seq_length SEQ_LENGTH] [--keep KEEP [KEEP ...]] [--centromeres CENTROMERES] [--haplotypes HAPLOTYPES]
-                         [--prefix PREFIX] [--format {png,pdf}] [--scale SCALE] [--height HEIGHT] [--width WIDTH] [--no-arrow] [--ribbon_adjust RIBBON_ADJUST] [-f] [-n]
+usage: ntsynt_vis.py [-h] --blocks BLOCKS --fais FAIS [FAIS ...] [--name_conversion NAME_CONVERSION] [--tree TREE] [--target-genome TARGET_GENOME] [--normalize]
+                     [--indel INDEL] [--length LENGTH] [--seq_length SEQ_LENGTH] [--keep KEEP [KEEP ...]] [--centromeres CENTROMERES] [--haplotypes HAPLOTYPES]
+                     [--prefix PREFIX] [--format {png,pdf}] [--scale SCALE] [--height HEIGHT] [--width WIDTH] [--no-arrow] [--ribbon_adjust RIBBON_ADJUST] [-f] [-n]
 
 Generate a ribbon plot to visualize ntSynt synteny blocks
 
@@ -92,13 +92,13 @@ All the files referenced in these commands can be found in the `tests` subfolder
 
 ##### Plot ribbon plots with an input cladogram in newick format, normalizing the strands of the assembly chromosomes
 ```
-plot_gggenomes.py --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv --tree great-apes.mt-tree.nwk --name_conversion great-apes.name-conversions.tsv --normalize --prefix great-apes_ribbon-plots --ribbon_adjust 0.14
+ntsynt_vis.py --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv --tree great-apes.mt-tree.nwk --name_conversion great-apes.name-conversions.tsv --normalize --prefix great-apes_ribbon-plots --ribbon_adjust 0.14
 ```
 ![Example_ribbon_plot](https://github.com/bcgsc/ntSynt-viz/blob/main/tests/great-apes_ribbon-plots.example1.png)
 
 ##### Plot ribbon plots without input cladogram, skipping normalization of the assembly chromosome strands, and changing scale size
 ```
-plot_gggenomes.py --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv  --name_conversion great-apes.name-conversions.tsv  --prefix great-apes_ribbon-plots_no-tree --ribbon_adjust 0.15 --scale 500000000 
+ntsynt_vis.pyy --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv  --name_conversion great-apes.name-conversions.tsv  --prefix great-apes_ribbon-plots_no-tree --ribbon_adjust 0.15 --scale 500000000 
 ```
 ![Example_ribbon_plot](https://github.com/bcgsc/ntSynt-viz/blob/main/tests/great-apes_ribbon-plots.example2.png)
 

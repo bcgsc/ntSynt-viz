@@ -108,7 +108,7 @@ def main():
     if len(args.fais) == 1:
         args.fais = read_fai_files(args.fais[0])
 
-    cmd = f"snakemake -s {base_dir}/plot_gggenomes.smk " \
+    cmd = f"snakemake -s {base_dir}/ntsynt_vis.smk " \
             f"--cores 2 " \
             f"--config " \
             f"prefix={args.prefix} " \
