@@ -6,7 +6,7 @@ The normalization will be based on the first listed assembly
 import argparse
 import os
 from collections import namedtuple
-from format_blocks_gggenomes import read_name_conversions
+from ntsynt_viz_format_blocks_gggenomes import read_name_conversions
 
 SyntenyBlock = namedtuple("SyntenyBlock", ["id", "genome", "chrom", "start", "end", "strand", "num_mx", "reason"])
 

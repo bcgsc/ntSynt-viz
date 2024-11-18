@@ -1,11 +1,11 @@
-# ntSynt-viz: Visualizing ntSynt synteny blocks
+# ntSynt-viz: Visualizing multi-genome synteny
 
-Here, we provide an easy-to-use pipline for generating ribbon plots combined with chromosome painting to visualize the output synteny blocks from ntSynt.
+Here, we provide an easy-to-use pipeline for generating ribbon plots combined with chromosome painting to visualize multi-genome synteny blocks. The tool is set-up to accept synteny blocks formatted in the [ntSynt](https://github.com/bcgsc/ntSynt) style, but any synteny block file that adheres to the simple, BED-like TSV format of ntSynt can be visualized using ntSynt-viz.
 
 This flexible pipeline implements numerous features, including:
 * Option to normalize the strands of input chromosomes, based on a target assembly
 * Evidence-guided ordering of assemblies from top-to-bottom, based on an input tree structure or distance estimates from the synteny blocks
-* Sorting chromosomes right-to-left based on mappings to other assemblies
+* Sorting chromosomes right-to-left based on synteny to other assemblies
 * Colouring both the ribbons and chromosomes based on the chromosomes in the target (top) assembly
 
 These features ensure that the output ribbon plots (powered by [gggenomes](https://thackl.github.io/gggenomes/)) are as easily understandable and as information-rich as possible.
@@ -32,37 +32,38 @@ conda install --yes -c conda-forge -c bioconda quicktree r-base bioconductor-tre
 
 ### Usage
 ```
-usage: plot_gggenomes.py [-h] --blocks BLOCKS --fais FAIS [FAIS ...] [--name_conversion NAME_CONVERSION] [--tree TREE] [--target-genome TARGET_GENOME] [--normalize]
-                         [--indel INDEL] [--length LENGTH] [--seq_length SEQ_LENGTH] [--keep KEEP [KEEP ...]] [--centromeres CENTROMERES] [--haplotypes HAPLOTYPES]
-                         [--prefix PREFIX] [--format {png,pdf}] [--scale SCALE] [--height HEIGHT] [--width WIDTH] [--no-arrow] [--ribbon_adjust RIBBON_ADJUST] [-f] [-n]
+usage: ntsynt_viz.py [-h] --blocks BLOCKS --fais FAIS [FAIS ...] [--name_conversion NAME_CONVERSION] [--tree TREE] [--target-genome TARGET_GENOME] [--normalize]
+                     [--indel INDEL] [--length LENGTH] [--seq_length SEQ_LENGTH] [--keep KEEP [KEEP ...]] [--centromeres CENTROMERES] [--haplotypes HAPLOTYPES]
+                     [--prefix PREFIX] [--format {png,pdf}] [--scale SCALE] [--height HEIGHT] [--width WIDTH] [--no-arrow] [--ribbon_adjust RIBBON_ADJUST] [-f]
+                     [-n]
 
-Generate a ribbon plot to visualize ntSynt synteny blocks
+Visualizing multi-genome synteny
 
 optional arguments:
   -h, --help            show this help message and exit
 
 required arguments:
-  --blocks BLOCKS       ntSynt synteny blocks TSV
+  --blocks BLOCKS       ntSynt-formatted synteny blocks TSV
   --fais FAIS [FAIS ...]
                         FAI files for all input assemblies. Can be a list or a file with one FAI path per line.
 
 main plot formatting arguments:
   --name_conversion NAME_CONVERSION
-                        TSV for converting names in the blocks TSV (old -> new). IMPORTANT: new names cannot have spaces. If you want to have spaces in the final ribbon
-                        plot, use the special character '_'. All underscores in the new name will be converted to spaces.
+                        TSV for converting names in the blocks TSV (old -> new). IMPORTANT: new names cannot have spaces. If you want to have spaces in the
+                        final ribbon plot, use the special character '_'. All underscores in the new name will be converted to spaces.
   --tree TREE           User-input tree file in newick format. If specified, this tree will be plotted next to the output ribbon plot, and used for ordering the
-                        assemblies. The names in the newick file must match the new names if --name_conversion is specified, or the genome file names in the synteny blocks
-                        input file otherwise. If not specified, the synteny blocks will be used to estimate pairwise distances for the assembly ordering and associated
-                        tree.
+                        assemblies. The names in the newick file must match the new names if --name_conversion is specified, or the genome file names in the
+                        synteny blocks input file otherwise. If not specified, the synteny blocks will be used to estimate pairwise distances for the assembly
+                        ordering and associated tree.
   --target-genome TARGET_GENOME
-                        Target genome. If specified, this genome will be at the top of the ribbon plot, with ribbons coloured based on its chromosomes and (if applicable)
-                        other chromosomes normalized to it. If not specified, the top genome will be arbitrary.
+                        Target genome. If specified, this genome will be at the top of the ribbon plot, with ribbons coloured based on its chromosomes and (if
+                        applicable) other chromosomes normalized to it. If not specified, the top genome will be arbitrary.
   --normalize           Normalize strand of chromosomes relative to the target (top) genome in the ribbon plots
   --centromeres CENTROMERES
-                        TSV file with centromere positions. Must have the headers: bin_id,seq_id,start,end. bin_id must match the new names from --name_conversion or the
-                        assembly names if --name_conversion is not specified. seq_id is the chromosome name.
+                        TSV file with centromere positions. Must have the headers: bin_id,seq_id,start,end. bin_id must match the new names from
+                        --name_conversion or the assembly names if --name_conversion is not specified. seq_id is the chromosome name.
   --haplotypes HAPLOTYPES
-                        File listing haplotype assembly names: TSV, maternal/paternal assemblies separated by tabs.
+                        File listing haplotype assembly names: TSV, maternal/paternal assembly file names separated by tabs.
   --no-arrow            Only used with --normalize; do not draw arrows indicating reverse-complementation
 
 block filtering arguments:
@@ -76,12 +77,12 @@ block filtering arguments:
 output arguments:
   --prefix PREFIX       Prefix for output files [ntSynt_ribbon-plot]
   --format {png,pdf}    Output format of ribbon plot [png]
-  --scale SCALE         Length of scale bar in bases [1e9]
+  --scale SCALE         Length of scale bar in bases [100e6]
   --height HEIGHT       Height of plot in cm [20]
   --width WIDTH         Width of plot in cm [50]
   --ribbon_adjust RIBBON_ADJUST
-                        Ratio for adjusting spacing beside ribbon plot. Increase if ribbon plot labels are cut off, and decrease to reduce the white space to the left of
-                        the ribbon plot [0.1]
+                        Ratio for adjusting spacing beside ribbon plot. Increase if ribbon plot labels are cut off, and decrease to reduce the white space to
+                        the left of the ribbon plot [0.1]
 
 execution arguments:
   -f, --force           Force a re-run of the entire pipeline
@@ -92,13 +93,13 @@ All the files referenced in these commands can be found in the `tests` subfolder
 
 ##### Plot ribbon plots with an input cladogram in newick format, normalizing the strands of the assembly chromosomes
 ```
-plot_gggenomes.py --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv --tree great-apes.mt-tree.nwk --name_conversion great-apes.name-conversions.tsv --normalize --prefix great-apes_ribbon-plots --ribbon_adjust 0.14
+ntsynt_viz.py --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv --tree great-apes.mt-tree.nwk --name_conversion great-apes.name-conversions.tsv --normalize --prefix great-apes_ribbon-plots --ribbon_adjust 0.14 --scale 1e9
 ```
 ![Example_ribbon_plot](https://github.com/bcgsc/ntSynt-viz/blob/main/tests/great-apes_ribbon-plots.example1.png)
 
-##### Plot ribbon plots without input cladogram, skipping normalization of the assembly chromosome strands, and changing scale size
+##### Plot ribbon plots without input cladogram, skipping normalization of the assembly chromosome strands, specifying target (top) genome
 ```
-plot_gggenomes.py --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv  --name_conversion great-apes.name-conversions.tsv  --prefix great-apes_ribbon-plots_no-tree --ribbon_adjust 0.15 --scale 500000000 
+ntsynt_viz.py --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv  --name_conversion great-apes.name-conversions.tsv  --prefix great-apes_ribbon-plots_no-tree --ribbon_adjust 0.15 --scale 1e9 --target-genome Homo_sapiens
 ```
 ![Example_ribbon_plot](https://github.com/bcgsc/ntSynt-viz/blob/main/tests/great-apes_ribbon-plots.example2.png)
 

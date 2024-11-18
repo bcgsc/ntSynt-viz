@@ -4,7 +4,7 @@ Convert a pairwise distance matrix to a phylip format
 '''
 import argparse
 from collections import defaultdict
-from gggenomes_normalize_strands import read_name_conversions
+from ntsynt_viz_normalize_strands import read_name_conversions
 
 def load_distance_matrix(tsv_in):
     "Load the distance matrix into a dictionary"

@@ -4,7 +4,7 @@ Rename the second columns of the ntSynt synteny blocks (assembly name)
 Useful when naming synteny blocks based on some other name is clearer than assembly names
 '''
 import sys
-from format_blocks_gggenomes import read_name_conversions
+from ntsynt_viz_format_blocks_gggenomes import read_name_conversions
 
 def rename_synteny_tsv(tsv_in, names_dict):
     "Rename the first columns of ntSynt synteny blocks"
