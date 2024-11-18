@@ -193,9 +193,9 @@ rule gggenomes_files:
                 first_block = line.strip()
                 break
         if name_conversion:
-            shell(f"ntsynt-viz_format_blocks_gggenomes.py --fai {sort_fais(input.fais, name_conversion, input.orders)} --prefix {params.prefix} --blocks {input.blocks} --length {min_len} --seq-length {min_seq_length} --colour {first_block} --name_conversion {name_conversion} {params.oris} {params.keep_seqs}")
+            shell(f"ntsynt_viz_format_blocks_gggenomes.py --fai {sort_fais(input.fais, name_conversion, input.orders)} --prefix {params.prefix} --blocks {input.blocks} --length {min_len} --seq-length {min_seq_length} --colour {first_block} --name_conversion {name_conversion} {params.oris} {params.keep_seqs}")
         else:
-            shell(f"ntsynt-viz_format_blocks_gggenomes.py --fai {sort_fais_no_name_conversion(input.fais, input.orders)} --prefix {params.prefix} --blocks {input.blocks} --length {min_len} --seq-length {min_seq_length} --colour {first_block} {params.oris} {params.keep_seqs}")
+            shell(f"ntsynt_viz_format_blocks_gggenomes.py --fai {sort_fais_no_name_conversion(input.fais, input.orders)} --prefix {params.prefix} --blocks {input.blocks} --length {min_len} --seq-length {min_seq_length} --colour {first_block} {params.oris} {params.keep_seqs}")
 
 
 rule chrom_sorting:
