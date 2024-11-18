@@ -168,9 +168,9 @@ rule sort_blocks:
         if normalize:
             shell(f"sort_ntsynt_blocks.py --synteny_blocks {input.blocks} --sort_order {order_blocks_str} > {params.intermediate_blocks}")
             if name_conversion:
-                shell(f"ntsynt-viz_normalize_strands.py --blocks {params.intermediate_blocks} --fais {sort_fais(input.fais, name_conversion, input.orders)} -p {params.prefix} {params.name_conversion}")
+                shell(f"ntsynt_viz_normalize_strands.py --blocks {params.intermediate_blocks} --fais {sort_fais(input.fais, name_conversion, input.orders)} -p {params.prefix} {params.name_conversion}")
             else:
-                shell(f"ntsynt-viz_normalize_strands.py --blocks {params.intermediate_blocks} --fais {sort_fais_no_name_conversion(input.fais, input.orders)} -p {params.prefix} {params.name_conversion}")
+                shell(f"ntsynt_viz_normalize_strands.py --blocks {params.intermediate_blocks} --fais {sort_fais_no_name_conversion(input.fais, input.orders)} -p {params.prefix} {params.name_conversion}")
         else:
             shell(f"sort_ntsynt_blocks.py --synteny_blocks {input.blocks} --sort_order {order_blocks_str} > {output.sorted_blocks}")
 
