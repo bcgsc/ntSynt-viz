@@ -1,11 +1,11 @@
-# ntSynt-viz: Visualizing ntSynt synteny blocks
+# ntSynt-viz: Visualizing multi-genome synteny
 
-Here, we provide an easy-to-use pipeline for generating ribbon plots combined with chromosome painting to visualize the output synteny blocks from ntSynt.
+Here, we provide an easy-to-use pipeline for generating ribbon plots combined with chromosome painting to visualize multi-genome synteny blocks. The tool is set-up to accept synteny blocks formatted in the [ntSynt](https://github.com/bcgsc/ntSynt) style, but any synteny block file that adheres to the simple, BED-like TSV format of ntSynt can be visualized using ntSynt-viz.
 
 This flexible pipeline implements numerous features, including:
 * Option to normalize the strands of input chromosomes, based on a target assembly
 * Evidence-guided ordering of assemblies from top-to-bottom, based on an input tree structure or distance estimates from the synteny blocks
-* Sorting chromosomes right-to-left based on mappings to other assemblies
+* Sorting chromosomes right-to-left based on synteny to other assemblies
 * Colouring both the ribbons and chromosomes based on the chromosomes in the target (top) assembly
 
 These features ensure that the output ribbon plots (powered by [gggenomes](https://thackl.github.io/gggenomes/)) are as easily understandable and as information-rich as possible.
@@ -98,7 +98,7 @@ ntsynt_vis.py --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv --tr
 
 ##### Plot ribbon plots without input cladogram, skipping normalization of the assembly chromosome strands, and changing scale size
 ```
-ntsynt_vis.pyy --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv  --name_conversion great-apes.name-conversions.tsv  --prefix great-apes_ribbon-plots_no-tree --ribbon_adjust 0.15 --scale 500000000 
+ntsynt_vis.py --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv  --name_conversion great-apes.name-conversions.tsv  --prefix great-apes_ribbon-plots_no-tree --ribbon_adjust 0.15 --scale 500000000 
 ```
 ![Example_ribbon_plot](https://github.com/bcgsc/ntSynt-viz/blob/main/tests/great-apes_ribbon-plots.example2.png)
 
