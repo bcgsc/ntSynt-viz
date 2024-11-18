@@ -32,37 +32,38 @@ conda install --yes -c conda-forge -c bioconda quicktree r-base bioconductor-tre
 
 ### Usage
 ```
-usage: ntsynt_vis.py [-h] --blocks BLOCKS --fais FAIS [FAIS ...] [--name_conversion NAME_CONVERSION] [--tree TREE] [--target-genome TARGET_GENOME] [--normalize]
+usage: ntsynt_viz.py [-h] --blocks BLOCKS --fais FAIS [FAIS ...] [--name_conversion NAME_CONVERSION] [--tree TREE] [--target-genome TARGET_GENOME] [--normalize]
                      [--indel INDEL] [--length LENGTH] [--seq_length SEQ_LENGTH] [--keep KEEP [KEEP ...]] [--centromeres CENTROMERES] [--haplotypes HAPLOTYPES]
-                     [--prefix PREFIX] [--format {png,pdf}] [--scale SCALE] [--height HEIGHT] [--width WIDTH] [--no-arrow] [--ribbon_adjust RIBBON_ADJUST] [-f] [-n]
+                     [--prefix PREFIX] [--format {png,pdf}] [--scale SCALE] [--height HEIGHT] [--width WIDTH] [--no-arrow] [--ribbon_adjust RIBBON_ADJUST] [-f]
+                     [-n]
 
-Generate a ribbon plot to visualize ntSynt synteny blocks
+Visualizing multi-genome synteny
 
 optional arguments:
   -h, --help            show this help message and exit
 
 required arguments:
-  --blocks BLOCKS       ntSynt synteny blocks TSV
+  --blocks BLOCKS       ntSynt-formatted synteny blocks TSV
   --fais FAIS [FAIS ...]
                         FAI files for all input assemblies. Can be a list or a file with one FAI path per line.
 
 main plot formatting arguments:
   --name_conversion NAME_CONVERSION
-                        TSV for converting names in the blocks TSV (old -> new). IMPORTANT: new names cannot have spaces. If you want to have spaces in the final ribbon
-                        plot, use the special character '_'. All underscores in the new name will be converted to spaces.
+                        TSV for converting names in the blocks TSV (old -> new). IMPORTANT: new names cannot have spaces. If you want to have spaces in the
+                        final ribbon plot, use the special character '_'. All underscores in the new name will be converted to spaces.
   --tree TREE           User-input tree file in newick format. If specified, this tree will be plotted next to the output ribbon plot, and used for ordering the
-                        assemblies. The names in the newick file must match the new names if --name_conversion is specified, or the genome file names in the synteny blocks
-                        input file otherwise. If not specified, the synteny blocks will be used to estimate pairwise distances for the assembly ordering and associated
-                        tree.
+                        assemblies. The names in the newick file must match the new names if --name_conversion is specified, or the genome file names in the
+                        synteny blocks input file otherwise. If not specified, the synteny blocks will be used to estimate pairwise distances for the assembly
+                        ordering and associated tree.
   --target-genome TARGET_GENOME
-                        Target genome. If specified, this genome will be at the top of the ribbon plot, with ribbons coloured based on its chromosomes and (if applicable)
-                        other chromosomes normalized to it. If not specified, the top genome will be arbitrary.
+                        Target genome. If specified, this genome will be at the top of the ribbon plot, with ribbons coloured based on its chromosomes and (if
+                        applicable) other chromosomes normalized to it. If not specified, the top genome will be arbitrary.
   --normalize           Normalize strand of chromosomes relative to the target (top) genome in the ribbon plots
   --centromeres CENTROMERES
-                        TSV file with centromere positions. Must have the headers: bin_id,seq_id,start,end. bin_id must match the new names from --name_conversion or the
-                        assembly names if --name_conversion is not specified. seq_id is the chromosome name.
+                        TSV file with centromere positions. Must have the headers: bin_id,seq_id,start,end. bin_id must match the new names from
+                        --name_conversion or the assembly names if --name_conversion is not specified. seq_id is the chromosome name.
   --haplotypes HAPLOTYPES
-                        File listing haplotype assembly names: TSV, maternal/paternal assemblies separated by tabs.
+                        File listing haplotype assembly names: TSV, maternal/paternal assembly file names separated by tabs.
   --no-arrow            Only used with --normalize; do not draw arrows indicating reverse-complementation
 
 block filtering arguments:
@@ -76,12 +77,12 @@ block filtering arguments:
 output arguments:
   --prefix PREFIX       Prefix for output files [ntSynt_ribbon-plot]
   --format {png,pdf}    Output format of ribbon plot [png]
-  --scale SCALE         Length of scale bar in bases [1e9]
+  --scale SCALE         Length of scale bar in bases [100e6]
   --height HEIGHT       Height of plot in cm [20]
   --width WIDTH         Width of plot in cm [50]
   --ribbon_adjust RIBBON_ADJUST
-                        Ratio for adjusting spacing beside ribbon plot. Increase if ribbon plot labels are cut off, and decrease to reduce the white space to the left of
-                        the ribbon plot [0.1]
+                        Ratio for adjusting spacing beside ribbon plot. Increase if ribbon plot labels are cut off, and decrease to reduce the white space to
+                        the left of the ribbon plot [0.1]
 
 execution arguments:
   -f, --force           Force a re-run of the entire pipeline

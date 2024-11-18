@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''
-Driver script for running distance estimation + gggenomes snakemake pipeline
+Driver script for running the ntSynt-viz pipeline
 '''
 import argparse
 import shlex
@@ -29,16 +29,16 @@ def check_name_conversion(name_conversion, parser):
                     f"converted to spaces for the final output.")
 
 def main():
-    "Run distance estimation and gggenomes for ntSynt results"
+    "Generate multi-genome synteny ribbon plot"
     parser = argparse.ArgumentParser(
-        description="Generate a ribbon plot to visualize ntSynt synteny blocks")
+        description="Visualizing multi-genome synteny")
     required_group = parser.add_argument_group('required arguments')
     main_formatting_group = parser.add_argument_group('main plot formatting arguments')
     block_filter_group = parser.add_argument_group('block filtering arguments')
     output_group = parser.add_argument_group('output arguments')
     execution_group = parser.add_argument_group('execution arguments')
 
-    required_group.add_argument("--blocks", help="ntSynt synteny blocks TSV", required=True, type=str)
+    required_group.add_argument("--blocks", help="ntSynt-formatted synteny blocks TSV", required=True, type=str)
     required_group.add_argument("--fais",
                         help="FAI files for all input assemblies. Can be a list or a file with one FAI path per line.",
                         nargs="+", required=True, type=str)
@@ -75,14 +75,14 @@ def main():
                             "the assembly names if --name_conversion is not specified. "\
                             "seq_id is the chromosome name.", required=False, type=str)
     main_formatting_group.add_argument("--haplotypes", help="File listing haplotype assembly names: TSV, "
-                        "maternal/paternal assemblies separated by tabs.",
+                        "maternal/paternal assembly file names separated by tabs.",
                         required=False, type=str)
     output_group.add_argument("--prefix", help="Prefix for output files [ntSynt_ribbon-plot]", required=False, type=str,
                         default="ntSynt_ribbon-plot")
     output_group.add_argument("--format", help="Output format of ribbon plot [png]",
                         required=False, choices=["png", "pdf"], default="png")
-    output_group.add_argument("--scale", help="Length of scale bar in bases [1e9]", required=False, type=float,
-                        default=1e9)
+    output_group.add_argument("--scale", help="Length of scale bar in bases [100e6]", required=False, type=float,
+                        default=100e6)
     output_group.add_argument("--height", help="Height of plot in cm [20]", required=False, type=int, default=20)
     output_group.add_argument("--width", help="Width of plot in cm [50]", required=False, type=int, default=50)
     main_formatting_group.add_argument("--no-arrow", help="Only used with --normalize; "
