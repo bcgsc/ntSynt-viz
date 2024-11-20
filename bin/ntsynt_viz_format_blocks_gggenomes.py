@@ -191,8 +191,10 @@ def main():
 
     if args.name_conversion:
         name_conversion_dict = read_name_conversions(args.name_conversion)
+    else:
+        name_conversion_dict = None
 
-    fais = read_fais(args.fai, name_conversion_dict if args.name_conversion else None)
+    fais = read_fais(args.fai, name_conversion_dict)
 
     keep_blocks = read_assembly_block_pairs(args.keep)
 

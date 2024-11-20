@@ -20,7 +20,8 @@ jobs:
   - script: |
       source activate ntsynt_viz_ci
       conda install --yes -c bioconda -c conda-forge python=3.12 mamba
-      mamba install --yes -c conda-forge -c bioconda quicktree r-base bioconductor-treeio r-ggpubr bioconductor-ggtree r-phytools r-dplyr r-argparse r-scales r-stringr pylint
+      mamba install --yes -c conda-forge -c bioconda quicktree r-base bioconductor-treeio r-ggpubr bioconductor-ggtree r-phytools r-dplyr r-argparse r-scales r-stringr pylint intervaltree
+      # NOTE: Once treeio is updated in bioconda, you may be able to use r-gggenomes instead. I am getting conflicting package errors currently
       R -e 'install.packages(c("gggenomes"), repos = "https://cran.r-project.org")'
     displayName: Install dependencies
 
@@ -77,7 +78,9 @@ jobs:
 
   - script: |
       source activate ntsynt_viz_ci
-      mamba install --yes -c conda-forge -c bioconda quicktree r-base bioconductor-treeio r-ggpubr bioconductor-ggtree r-phytools r-dplyr r-argparse r-scales r-stringr r-gggenomes pylint
+      mamba install --yes -c conda-forge -c bioconda quicktree r-base bioconductor-treeio r-ggpubr bioconductor-ggtree r-phytools r-dplyr r-argparse r-scales r-stringr pylint intervaltree
+      # NOTE: Once treeio is updated in bioconda, you may be able to use r-gggenomes instead. I am getting conflicting package errors currently
+      R -e 'install.packages(c("gggenomes"), repos = "https://cran.r-project.org")'
     displayName: Install dependencies
 
   - script: |

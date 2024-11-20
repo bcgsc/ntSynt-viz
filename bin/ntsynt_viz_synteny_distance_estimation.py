@@ -10,8 +10,8 @@ import itertools
 
 class SyntenyBlock:
     "Represents a synteny block"
-    def __init__(self, id, genome, chrom, start, end, strand, num_mx, reason):
-        self.id = int(id)
+    def __init__(self, block_id, genome, chrom, start, end, strand, num_mx, reason):
+        self.id = int(block_id)
         self.genome = genome
         self.chrom = chrom
         self.start = int(start)
@@ -19,6 +19,15 @@ class SyntenyBlock:
         self.strand = strand
         self.num_mx = int(num_mx)
         self.reason = reason
+
+    def __str__(self):
+        "Return a string representing the synteny block"
+        return f"{self.id}\t{self.genome}\t{self.chrom}\t{self.start}\t{self.end}"\
+                f"\t{self.strand}\t{self.num_mx}\t{self.reason}"
+
+    def get_length(self):
+        "Return the length of the synteny block"
+        return self.end - self.start
 
 def get_block_i(block_id, block_ids):
     "Generate the new block ID"
