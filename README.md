@@ -11,8 +11,10 @@ This flexible pipeline implements numerous features, including:
 These features ensure that the output ribbon plots (powered by [gggenomes](https://thackl.github.io/gggenomes/)) are as easily understandable and as information-rich as possible.
 
 ### Dependencies
-* [quicktree](https://github.com/khowe/quicktree)
+* python 3.8+
 * [intervaltree](https://github.com/chaimleib/intervaltree)
+* [snakemake](https://github.com/snakemake/snakemake)
+* [quicktree](https://github.com/khowe/quicktree)
 * R packages:
   * [gggenomes](https://github.com/thackl/gggenomes)
   * [treeio](https://www.bioconductor.org/packages/release/bioc/html/treeio.html)
@@ -28,7 +30,7 @@ These features ensure that the output ribbon plots (powered by [gggenomes](https
 
 #### Installing dependencies using conda
 ```
-conda install --yes -c conda-forge -c bioconda quicktree intervaltree r-base bioconductor-treeio r-ggpubr bioconductor-ggtree r-phytools r-dplyr r-argparse r-scales r-stringr
+conda install --yes -c conda-forge -c bioconda quicktree snakemake intervaltree r-base bioconductor-treeio r-ggpubr bioconductor-ggtree r-phytools r-dplyr r-argparse r-scales r-stringr
 R -e 'install.packages(c("gggenomes"), repos = "https://cran.r-project.org")'
 ```
 
