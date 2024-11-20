@@ -1,0 +1,110 @@
+# ntSynt CI
+
+jobs:
+- job:
+  displayName: ubuntu-latest
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - checkout: self
+    persistCredentials: true
+    submodules: true
+
+  - script: echo "##vso[task.prependpath]$CONDA/bin"
+    displayName: Add conda to PATH
+
+  - script: conda create --yes --quiet --name ntsynt_viz_ci
+    displayName: Create Anaconda environment
+
+  - script: |
+      source activate ntsynt_viz_ci
+      conda install --yes -c bioconda -c conda-forge python=3.12 mamba
+      mamba install --yes -c conda-forge -c bioconda quicktree r-base bioconductor-treeio r-ggpubr bioconductor-ggtree r-phytools r-dplyr r-argparse r-scales r-stringr pylint intervaltree snakemake
+      # NOTE: Once treeio is updated in bioconda, you may be able to use r-gggenomes instead. I am getting conflicting package errors currently
+      R -e 'install.packages(c("gggenomes"), repos = "https://cran.r-project.org")'
+    displayName: Install dependencies
+
+  - script: |
+      source activate ntsynt_viz_ci
+      cd bin
+      pylint *py
+    displayName: Run pylint
+
+  - script: |
+      source activate ntsynt_viz_ci
+      ./bin/ntsynt_viz.py --help
+    displayName: Print ntSynt-viz help message
+
+  - script: |
+      source activate ntsynt_viz_ci
+      export PATH=$(pwd)/bin:$PATH
+      cd tests
+      ntsynt_viz.py --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv --tree great-apes.mt-tree.nwk --name_conversion great-apes.name-conversions.tsv --normalize --prefix great-apes_ribbon-plots --ribbon_adjust 0.14 --scale 1e9
+    displayName: Run Example 1 test
+
+  - script: |
+      source activate ntsynt_viz_ci
+      export PATH=$(pwd)/bin:$PATH
+      cd tests
+      ntsynt_viz.py --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv  --name_conversion great-apes.name-conversions.tsv  --prefix great-apes_ribbon-plots_no-tree --ribbon_adjust 0.15 --scale 1e9 --target-genome Homo_sapiens --force
+      diff -q great-apes_ribbon-plots_no-tree_est-distances.order.tsv expected/great-apes_ribbon-plots_no-tree_est-distances.order.tsv
+    displayName: Run Example 2 test
+
+
+- job:
+  displayName: macOS-latest
+  pool:
+    vmImage: 'macOS-latest'
+
+  steps:
+  - checkout: self
+    persistCredentials: true
+    submodules: true
+
+  - script: |
+      mkdir -p ~/miniforge3
+      curl -L https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh  -o ~/miniforge3/miniforge.sh
+      bash ~/miniforge3/miniforge.sh -b -u -p ~/miniforge3
+      rm -rf  ~/miniforge3/miniforge.sh
+      ~/miniforge3/bin/conda init bash
+      ~/miniforge3/bin/conda init zsh
+      export CONDA=$(realpath ~/miniforge3/bin)
+      echo "##vso[task.prependpath]$CONDA"
+    displayName: Install conda
+
+  - script: conda create --yes --quiet --name ntsynt_viz_ci
+    displayName: Create Anaconda environment
+
+  - script: |
+      source activate ntsynt_viz_ci
+      mamba install --yes -c conda-forge -c bioconda quicktree r-base bioconductor-treeio r-ggpubr bioconductor-ggtree r-phytools r-dplyr r-argparse r-scales r-stringr pylint intervaltree snakemake
+      # NOTE: Once treeio is updated in bioconda, you may be able to use r-gggenomes instead. I am getting conflicting package errors currently
+      R -e 'install.packages(c("gggenomes"), repos = "https://cran.r-project.org")'
+    displayName: Install dependencies
+
+  - script: |
+      source activate ntsynt_viz_ci
+      cd bin
+      pylint *py
+    displayName: Run pylint
+
+  - script: |
+      source activate ntsynt_viz_ci
+      ./bin/ntsynt_viz.py --help
+    displayName: Print ntSynt-viz help message
+
+  - script: |
+      source activate ntsynt_viz_ci
+      export PATH=$(pwd)/bin:$PATH
+      cd tests
+      ntsynt_viz.py --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv --tree great-apes.mt-tree.nwk --name_conversion great-apes.name-conversions.tsv --normalize --prefix great-apes_ribbon-plots --ribbon_adjust 0.14 --scale 1e9
+    displayName: Run Example 1 test
+
+  - script: |
+      source activate ntsynt_viz_ci
+      export PATH=$(pwd)/bin:$PATH
+      cd tests
+      ntsynt_viz.py --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv  --name_conversion great-apes.name-conversions.tsv  --prefix great-apes_ribbon-plots_no-tree --ribbon_adjust 0.15 --scale 1e9 --target-genome Homo_sapiens --force
+      diff -q great-apes_ribbon-plots_no-tree_est-distances.order.tsv expected/great-apes_ribbon-plots_no-tree_est-distances.order.tsv
+    displayName: Run Example 2 test

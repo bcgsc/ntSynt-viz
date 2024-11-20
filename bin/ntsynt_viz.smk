@@ -106,7 +106,7 @@ rule compute_distances:
         distance_tsv = f"{prefix}_est-distances.tsv"
     params: indel_threshold=indel_threshold
     shell:
-        "ntsynt-viz_synteny_distance_estimation.py {input} {params.indel_threshold} > {output.distance_tsv}"
+        "ntsynt_viz_synteny_distance_estimation.py {input} {params.indel_threshold} > {output.distance_tsv}"
 
 rule convert_phylip:
     input: 
@@ -137,7 +137,7 @@ rule cladogram:
         ratio = cladogram_ratio,
         target = f"--target {target_genome}" if target_genome else ""
     shell:
-        "ntsynt-viz_distance_cladogram.R --nwk {input} -p {params.prefix} --lim {params.ratio} {params.target}"
+        "ntsynt_viz_distance_cladogram.R --nwk {input} -p {params.prefix} --lim {params.ratio} {params.target}"
 
 rule nudges:
     input: 
@@ -146,7 +146,7 @@ rule nudges:
     output:
         nudges = f"{prefix}_orders-nudges.tsv"
     shell:
-        "ntsynt-viz_find_plot_nudges.py --haplotypes {input.haplotypes} --orders {input.orders} > {output.nudges}"
+        "ntsynt_viz_find_plot_nudges.py --haplotypes {input.haplotypes} --orders {input.orders} > {output.nudges}"
 
 rule sort_blocks:
     input: 
@@ -211,7 +211,7 @@ rule chrom_sorting:
             fais = sort_fais(input.fais, name_conversion, input.orders)
         else:
             fais = sort_fais_no_name_conversion(input.fais, input.orders)
-        shell(f"ntsynt-viz_sort_sequences.py --fai {fais} --blocks {input.blocks} --lengths {input.sequences} > {output.sorted_seqs}")
+        shell(f"ntsynt_viz_sort_sequences.py --fai {fais} --blocks {input.blocks} --lengths {input.sequences} > {output.sorted_seqs}")
 
 rule chrom_paint:
     input: links = rules.gggenomes_files.output.links
@@ -237,7 +237,7 @@ rule ribbon_plot:
         arrow = "--no-arrow" if no_arrow else "",
         haplotypes = f"--haplotypes {rules.nudges.output.nudges}" if haplotypes else ""
     shell:
-        "ntsynt-viz_plot_synteny_blocks_ribbon_plot.R -s {input.sequences} -l {input.links} -p {params.prefix} --ratio {params.ratio}" 
+        "ntsynt_viz_plot_synteny_blocks_ribbon_plot.R -s {input.sequences} -l {input.links} -p {params.prefix} --ratio {params.ratio}" 
         " --scale {params.scale} -c {input.colour_feats} --format {params.out_img_format} --height {params.height} --width {params.width}"
         " {params.centromeres} {params.arrow} {params.haplotypes}"
 
@@ -261,6 +261,6 @@ rule ribbon_plot_tree:
         arrow = "--no-arrow" if no_arrow else "",
         haplotypes = f"--haplotypes {rules.nudges.output.nudges}" if haplotypes else ""
     shell:
-        "ntsynt-viz_plot_synteny_blocks_ribbon_plot.R -s {input.sequences} -l {input.links} -p {params.prefix} --tree {input.tree}"
+        "ntsynt_viz_plot_synteny_blocks_ribbon_plot.R -s {input.sequences} -l {input.links} -p {params.prefix} --tree {input.tree}"
         " --ratio {params.ratio} --scale {params.scale} -c {input.colour_feats} --format {params.out_img_format}  --height {params.height} --width {params.width}"
         " --order {input.orders} {params.centromeres} {params.arrow} {params.haplotypes}"

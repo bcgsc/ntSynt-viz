@@ -34,7 +34,7 @@ class AssemblyInfo:
     @index.setter
     def index(self, index):
         "The index property shouldn't be changed after constructor"
-        print("Warning - the index property will not be changed", file=sys.stderr, flush=True)
+        print(f"Warning - the index property {index} will not be changed", file=sys.stderr, flush=True)
 
 def read_orders_file(orders_file):
     "Read the orders file, and return a dictionary where AssemblyInfo objects are the values"

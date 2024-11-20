@@ -66,7 +66,7 @@ def tally_chromosome_hits(tree, asm, chrom, length, tile):
                 asm_tallies[map_region.chrom] = 0
             asm_tallies[map_region.chrom] += get_overlap_length(interval_hit, start, end)
         if asm_tallies:
-            best_hit_chrom, best_hit_length = sorted([(chrom, length) for chrom, length in asm_tallies.items()],
+            best_hit_chrom, best_hit_length = sorted(list(asm_tallies.items()),
                                                     key=lambda x: x[1],
                                                     reverse=True)[0]
 
@@ -106,7 +106,7 @@ def get_mapped_tiles(tree, fai_filenames, tile, asm_orders):
                 if asm_base in all_asm_seq_orders and chrom not in all_asm_seq_orders[asm_base]:
                     all_asm_seq_orders[asm_base][chrom] = len(all_asm_seq_orders[asm_base])
         if asm_base in all_asm_seq_orders:
-            stored_fai_lines = sorted(stored_fai_lines, key=lambda x: all_asm_seq_orders[asm_base][x[0]])
+            stored_fai_lines = sorted(stored_fai_lines, key=lambda x: all_asm_seq_orders[asm_base][x[0]]) # pylint: disable=cell-var-from-loop
         for chrom, length in stored_fai_lines:
             tiles += tally_chromosome_hits(tree, asm_base, chrom, length, tile)
 
@@ -136,7 +136,7 @@ def main():
     with open(args.lengths, 'r', encoding='utf-8') as fin:
         for line in fin:
             asm_name, chrom, length, relative_ori = line.strip().split("\t")
-            if asm_name == "bin_id" or asm_name == asm_orders[0]:
+            if asm_name in ["bin_id", asm_orders[0]]:
                 print(asm_name, chrom, length, relative_ori, sep="\t")
             else:
                 if asm_name not in stored_lines:
@@ -147,7 +147,7 @@ def main():
 
     for asm, lines_list in stored_lines.items():
         asm_orders_asm = asm_seq_orders[asm]
-        for line in sorted(lines_list, key=lambda x: asm_orders_asm[x[1]]):
+        for line in sorted(lines_list, key=lambda x: asm_orders_asm[x[1]]): # pylint: disable=cell-var-from-loop
             print(*line, sep="\t")
 
 
