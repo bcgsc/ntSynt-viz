@@ -17,7 +17,7 @@ class SyntenyBlock:
         self.start = int(start)
         self.end = int(end)
         self.strand = strand
-        self.num_mx = int(num_mx)
+        self.num_mx = num_mx
         self.reason = reason
 
     def __str__(self):

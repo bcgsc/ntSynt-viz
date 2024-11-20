@@ -107,3 +107,5 @@ ntsynt_viz.py --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv  --n
 ```
 ![Example_ribbon_plot](https://github.com/bcgsc/ntSynt-viz/blob/main/tests/great-apes_ribbon-plots.example2.png)
 
+### Using ntSynt-viz with synteny blocks from tools other than ntSynt
+To visualize synteny blocks from synteny block detection tools other than ntSynt, the synteny blocks simply need to be converted to the straightforward [ntSynt format](https://github.com/bcgsc/ntsynt?tab=readme-ov-file#output-files). For convenience, we also provide some scripts to do this conversion in the `conversion_scripts` directory.
