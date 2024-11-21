@@ -7,6 +7,8 @@ import shlex
 import subprocess
 import os
 
+NTSYNT_VIZ_VERSION = "1.0.0"
+
 def read_fai_files(fai_file):
     "Read the FAI files from the file of files"
     fai_list = []
@@ -77,9 +79,9 @@ def main():
     main_formatting_group.add_argument("--haplotypes", help="File listing haplotype assembly names: TSV, "
                         "maternal/paternal assembly file names separated by tabs.",
                         required=False, type=str)
-    output_group.add_argument("--prefix", help="Prefix for output files [ntSynt_ribbon-plot]", required=False, type=str,
-                        default="ntSynt_ribbon-plot")
-    output_group.add_argument("--format", help="Output format of ribbon plot [png]",
+    output_group.add_argument("--prefix", help="Prefix for output files [ntSynt-viz_ribbon-plot]",
+                              required=False, type=str, default="ntSynt-viz_ribbon-plot")
+    output_group.add_argument("--format", help="Output format of plot [png]",
                         required=False, choices=["png", "pdf"], default="png")
     output_group.add_argument("--scale", help="Length of scale bar in bases [100e6]", required=False, type=float,
                         default=100e6)
@@ -97,6 +99,7 @@ def main():
     )
     execution_group.add_argument("-f", "--force", help="Force a re-run of the entire pipeline", action="store_true")
     execution_group.add_argument("-n", help="Dry-run for snakemake pipeline", action="store_true")
+    execution_group.add_argument("-v", "--version", action="version", version=NTSYNT_VIZ_VERSION)
 
     args = parser.parse_args()
 
