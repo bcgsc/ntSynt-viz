@@ -28,7 +28,7 @@ These features ensure that the output ribbon plots (powered by [gggenomes](https
   * [scales](https://scales.r-lib.org/)
   * [stringr](https://stringr.tidyverse.org/)
 
-#### Installing dependencies using conda
+### Installing dependencies using conda
 ```
 conda install --yes -c conda-forge -c bioconda quicktree snakemake intervaltree r-base bioconductor-treeio r-ggpubr bioconductor-ggtree r-phytools r-dplyr r-argparse r-scales r-stringr
 R -e 'install.packages(c("gggenomes"), repos = "https://cran.r-project.org")'
