@@ -10,7 +10,7 @@ This flexible pipeline implements numerous features, including:
 
 These features ensure that the output ribbon plots (powered by [gggenomes](https://thackl.github.io/gggenomes/)) are as easily understandable and as information-rich as possible.
 
-### Dependencies
+## Dependencies
 * python 3.8+
 * [intervaltree](https://github.com/chaimleib/intervaltree)
 * [snakemake](https://github.com/snakemake/snakemake)
@@ -34,7 +34,7 @@ conda install --yes -c conda-forge -c bioconda quicktree snakemake intervaltree 
 R -e 'install.packages(c("gggenomes"), repos = "https://cran.r-project.org")'
 ```
 
-### Usage
+## Usage
 ```
 usage: ntsynt_viz.py [-h] --blocks BLOCKS --fais FAIS [FAIS ...] [--name_conversion NAME_CONVERSION] [--tree TREE] [--target-genome TARGET_GENOME] [--normalize]
                      [--indel INDEL] [--length LENGTH] [--seq_length SEQ_LENGTH] [--keep KEEP [KEEP ...]] [--centromeres CENTROMERES] [--haplotypes HAPLOTYPES]
@@ -92,20 +92,33 @@ execution arguments:
   -n                    Dry-run for snakemake pipeline
   -v, --version         show program's version number and exit
 ```
-#### Example commands
+## Example commands
 All the files referenced in these commands can be found in the `tests` subfolder for you to use in testing.
 
-##### Plot ribbon plots with an input cladogram in newick format, normalizing the strands of the assembly chromosomes
+#### Plot ribbon plots with an input cladogram in newick format, normalizing the strands of the assembly chromosomes
 ```
 ntsynt_viz.py --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv --tree great-apes.mt-tree.nwk --name_conversion great-apes.name-conversions.tsv --normalize --prefix great-apes_ribbon-plots --ribbon_adjust 0.14 --scale 1e9
 ```
 ![Example_ribbon_plot](https://github.com/bcgsc/ntSynt-viz/blob/main/tests/great-apes_ribbon-plots.example1.png)
 
-##### Plot ribbon plots without input cladogram, skipping normalization of the assembly chromosome strands, specifying target (top) genome
+#### Plot ribbon plots without input cladogram, skipping normalization of the assembly chromosome strands, specifying target (top) genome
 ```
 ntsynt_viz.py --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv  --name_conversion great-apes.name-conversions.tsv  --prefix great-apes_ribbon-plots_no-tree --ribbon_adjust 0.15 --scale 1e9 --target-genome Homo_sapiens
 ```
 ![Example_ribbon_plot](https://github.com/bcgsc/ntSynt-viz/blob/main/tests/great-apes_ribbon-plots.example2.png)
 
-### Using ntSynt-viz with synteny blocks from tools other than ntSynt
+## Using ntSynt-viz with synteny blocks from tools other than ntSynt
 To visualize synteny blocks from synteny block detection tools other than ntSynt, the synteny blocks simply need to be converted to the straightforward [ntSynt format](https://github.com/bcgsc/ntsynt?tab=readme-ov-file#output-files). For convenience, we also provide some scripts to do this conversion in the `conversion_scripts` directory.
+
+## License
+ntSynt-viz Copyright (c) 2024-present British Columbia Cancer Agency Branch. All rights reserved.
+
+ntSynt-viz is released under the GNU General Public License v3
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.
+
+For commercial licensing options, please contact Patrick Rebstein prebstein@bccancer.bc.ca
