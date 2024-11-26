@@ -75,5 +75,5 @@ if (args$png) {
 
 
 ordered_labels <- get_taxa_name(tree_ggtree)
-write.table(ordered_labels, paste(args$prefix, ".order.tsv", sep = ""),
+write.table(ordered_labels, paste(args$prefix, ".order_tmp.tsv", sep = ""),
             quote = FALSE, row.names = FALSE, col.names = FALSE)

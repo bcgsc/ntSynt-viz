@@ -134,10 +134,11 @@ rule cladogram:
         orders = f"{prefix}_est-distances.order.tsv"
     params:
         prefix = f"{prefix}_est-distances",
-        ratio = cladogram_ratio,
-        target = f"--target {target_genome}" if target_genome else ""
+        target = f"--target {target_genome}" if target_genome else "",
+        tree_flag = "--tree" if tree is not None else "",
+        haplotypes = f"--haplotypes {haplotypes}" if haplotypes else ""
     shell:
-        "ntsynt_viz_distance_cladogram.R --nwk {input} -p {params.prefix} --lim {params.ratio} {params.target}"
+        "ntsynt_viz_output_orders.py --nwk {input} -p {params.prefix} {params.target} {params.tree_flag} {params.haplotypes}"
 
 rule nudges:
     input: 
