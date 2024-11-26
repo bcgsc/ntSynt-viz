@@ -92,7 +92,7 @@ rule renaming:
     input: 
         blocks=f"{synteny_blocks}"
     output:
-        renamed_blocks=f"{blocks_no_suffix}.renamed.tsv"
+        renamed_blocks=temp(f"{blocks_no_suffix}.renamed.tsv")
     run:
         if name_conversion is not None:
             shell(f"rename_synteny_blocks.py {input.blocks} {name_conversion} > {output.renamed_blocks}")
@@ -131,7 +131,8 @@ rule cladogram:
     input:
         rules.make_nj_tree.output
     output:
-        orders = f"{prefix}_est-distances.order.tsv"
+        orders = f"{prefix}_est-distances.order.tsv",
+        orders_tmp = temp(f"{prefix}_est-distances.order_tmp.tsv")
     params:
         prefix = f"{prefix}_est-distances",
         target = f"--target {target_genome}" if target_genome else "",
@@ -145,7 +146,7 @@ rule nudges:
         orders = rules.cladogram.output.orders,
         haplotypes = haplotypes
     output:
-        nudges = f"{prefix}_orders-nudges.tsv"
+        nudges = temp(f"{prefix}_orders-nudges.tsv")
     shell:
         "ntsynt_viz_find_plot_nudges.py --haplotypes {input.haplotypes} --orders {input.orders} > {output.nudges}"
 
@@ -155,7 +156,9 @@ rule sort_blocks:
         orders = rules.cladogram.output.orders,
         fais = fais
     output:
-        sorted_blocks = f"{blocks_no_suffix}.renamed.sorted.blocks.tsv"
+        sorted_blocks = f"{blocks_no_suffix}.renamed.sorted.blocks.tsv",
+        intermediate_blocks = temp(f"{blocks_no_suffix}.renamed.sorted-tmp.tsv"),
+        chrom_oris = temp(f"{blocks_no_suffix}.renamed.sorted.chrom-orientations.tsv") if normalize else []
     params:
         intermediate_blocks = f"{blocks_no_suffix}.renamed.sorted-tmp.tsv",
         name_conversion = f"-c {name_conversion}" if name_conversion else "",
@@ -179,10 +182,11 @@ rule gggenomes_files:
     input: 
         fais = fais,
         orders = rules.cladogram.output.orders,
-        blocks = rules.sort_blocks.output.sorted_blocks
+        blocks = rules.sort_blocks.output.sorted_blocks,
+        oris = rules.sort_blocks.output.chrom_oris if normalize else []
     output:
         links = f"{prefix}.links.tsv",
-        sequences = f"{prefix}.sequence_lengths.tsv"
+        sequences = temp(f"{prefix}.sequence_lengths.tsv")
     params:
         prefix = prefix,
         oris = f"--orientations {blocks_no_suffix}.renamed.sorted.chrom-orientations.tsv" if normalize else "",

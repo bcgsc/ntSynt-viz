@@ -46,7 +46,7 @@ args <- parser$parse_args()
 
 # Read in and prepare sequences
 sequences <- read.csv(args$sequences, sep = "\t", header = TRUE) %>%
-  mutate(relative_orientation = if_else(relative_orientation == "_", "", "\u2190"))
+  mutate(relative_orientation = if_else(relative_orientation == "+", "", "\u2190"))
 
 
 # Prepare name conversions for tree
