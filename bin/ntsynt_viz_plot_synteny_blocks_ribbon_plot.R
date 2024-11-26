@@ -46,7 +46,7 @@ args <- parser$parse_args()
 
 # Read in and prepare sequences
 sequences <- read.csv(args$sequences, sep = "\t", header = TRUE) %>%
-  mutate(relative_orientation = if_else(relative_orientation == "_", "", "\u2190"))
+  mutate(relative_orientation = if_else(relative_orientation == "+", "", "\u2190"))
 
 
 # Prepare name conversions for tree
@@ -146,7 +146,8 @@ make_plot <- function(links, sequences, painting, add_scale_bar = FALSE, centrom
                 size = 6, fontface = "italic") + # label each bin
   #geom_seq_label(aes(label = seq_id), vjust = 1.1, size = 4) + # Can add seq labels if desired
   theme(axis.text = element_text(size = 25, face = "italic"),
-        legend.position = "bottom") +
+        legend.position = "bottom",
+        legend.text = element_text(size = 15)) +
   scale_fill_manual(values = colours,
                     breaks = sequences_filt) +
   scale_colour_manual(values = colours,
@@ -157,7 +158,7 @@ make_plot <- function(links, sequences, painting, add_scale_bar = FALSE, centrom
     plot <- plot + geom_seq_label(aes(label = relative_orientation, 
                                       x = pmax(.data$x, .data$xend),
                                       y = get_y_coord(haplotypes, bin_id, .data$y)), nudge_y = -0.05, 
-                                  size = 2.5, hjust = 1) 
+                                  size = 3.25, hjust = 1) 
   }
   xmax <- ggplot_build(plot)$layout$panel_params[[1]]$x.range[[2]]
   plot <- plot + xlim(0 - xmax * args$ratio, NA)
@@ -170,7 +171,7 @@ make_plot <- function(links, sequences, painting, add_scale_bar = FALSE, centrom
   if (add_scale_bar) {
     plot <- plot + geom_segment(data = scale_bar, aes(x = x, xend = xend, y = y, yend = yend),
                                 linewidth = 1.5) +
-      geom_text(data = scale_bar, aes(x = x + (xend / 2), y = y - 0.3, label = label)) +
+      geom_text(data = scale_bar, aes(x = x + (xend / 2), y = y - 0.4, label = label), size = 5) +
       theme(axis.line.x = element_blank(),
             axis.title.x = element_blank(),
             axis.text.x = element_blank(),
@@ -236,7 +237,7 @@ if (is.null(args$tree)) {
 
 any_rc <- length((sequences %>% filter(relative_orientation != ""))$relative_orientation) > 0
 if (any_rc && !args$no_arrow) {
-  note <- text_grob("sequences reverse complemented with --normalize indicated with arrows")
+  note <- text_grob("sequences reverse complemented with --normalize indicated with arrows", size = 15)
   plots <- ggarrange(plots, note, ncol = 1, heights = c(10, 1))
 }
 

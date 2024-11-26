@@ -10,8 +10,8 @@ import os
 re_fai = re.compile(r'^(\S+).fai$')
 SyntenyBlock = namedtuple("SyntenyBlock", ["id", "genome", "chrom", "start", "end", "strand"])
 
-REVERSE_COMP_CHAR = "*"
-PLACEHOLDER_CHAR = "_"
+REVERSE_COMP_CHAR = "-"
+PLACEHOLDER_CHAR = "+"
 
 def read_orientations_file(orientations):
     "Read in file with relative orientations"
