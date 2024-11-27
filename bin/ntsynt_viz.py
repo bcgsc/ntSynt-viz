@@ -42,7 +42,7 @@ def main():
 
     required_group.add_argument("--blocks", help="ntSynt-formatted synteny blocks TSV", required=True, type=str)
     required_group.add_argument("--fais",
-                        help="FAI files for all input assemblies. Can be a list or a file with one FAI path per line.",
+                        help="FAI files for all input genomes. Can be a list or a file with one FAI path per line.",
                         nargs="+", required=True, type=str)
     main_formatting_group.add_argument("--name_conversion",
                         help="TSV for converting names in the blocks TSV (old -> new). "
@@ -55,7 +55,7 @@ def main():
                         "The names in the newick file must match the new names if --name_conversion is specified, "
                         "or the genome file names in the synteny blocks input file otherwise. "
                         "If not specified, the synteny blocks will be used to estimate pairwise distances "
-                        "for the assembly ordering and associated tree.",
+                        "for the genome ordering and associated tree.",
                         required=False, type=str)
     main_formatting_group.add_argument("--target-genome", help="Target genome. If specified, "
                         "this genome will be at the top of the ribbon plot, "
@@ -68,13 +68,13 @@ def main():
     block_filter_group.add_argument("--indel", help="Indel size threshold [50000]", default=50000, type=int)
     block_filter_group.add_argument("--length", help="Minimum synteny block length [100000]", default=100000, type=int)
     block_filter_group.add_argument("--seq_length", help="Minimum sequence length [500000]", default=500000, type=float)
-    block_filter_group.add_argument("--keep", help="List of assembly_name:chromosome to show in visualization. "
+    block_filter_group.add_argument("--keep", help="List of genome_name:chromosome to show in visualization. "
                                     "All chromosomes with links to the specified chromosomes will also be shown.",
                                     nargs="+", required=False, type=str)
     main_formatting_group.add_argument("--centromeres",
                         help="TSV file with centromere positions. Must have the headers: bin_id,seq_id,start,end. "\
                             "bin_id must match the new names from --name_conversion or "
-                            "the assembly names if --name_conversion is not specified. "\
+                            "the genome names if --name_conversion is not specified. "\
                             "seq_id is the chromosome name.", required=False, type=str)
     main_formatting_group.add_argument("--haplotypes", help="File listing haplotype assembly names: TSV, "
                         "maternal/paternal assembly file names separated by tabs.",
