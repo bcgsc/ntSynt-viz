@@ -84,7 +84,7 @@ def make_sequence_file(fais, prefix, orientations=None, keep=None):
             for chrom_name, length in fais[genome_name].items():
                 if valid_print_sequence(genome_name, chrom_name, keep):
                     relative_ori = f"\t{orientations_dict[genome_name][chrom_name]}" \
-                        if orientations_dict and genome_name in orientations_dict else "\t_"
+                        if orientations_dict and genome_name in orientations_dict else f"\t{PLACEHOLDER_CHAR}"
                     fout.write(f"{genome_name}\t{chrom_name}\t{length}{relative_ori}\n")
 
 def make_links_file(synteny_file, prefix, valid_blocks_set, target_assembly):
