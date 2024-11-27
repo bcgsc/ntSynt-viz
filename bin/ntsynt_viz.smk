@@ -157,7 +157,7 @@ rule sort_blocks:
         fais = fais
     output:
         sorted_blocks = f"{blocks_no_suffix}.renamed.sorted.blocks.tsv",
-        intermediate_blocks = temp(f"{blocks_no_suffix}.renamed.sorted-tmp.tsv"),
+        intermediate_blocks = temp(f"{blocks_no_suffix}.renamed.sorted-tmp.tsv") if normalize else [],
         chrom_oris = temp(f"{blocks_no_suffix}.renamed.sorted.chrom-orientations.tsv") if normalize else []
     params:
         intermediate_blocks = f"{blocks_no_suffix}.renamed.sorted-tmp.tsv",
