@@ -34,6 +34,13 @@ conda install --yes -c conda-forge -c bioconda quicktree snakemake intervaltree 
 R -e 'install.packages(c("gggenomes"), repos = "https://cran.r-project.org")'
 ```
 
+### Setting up environment to run ntSynt-viz
+Once all dependencies are installed, simply clone the source code, and add the `bin` directory to your PATH
+```
+git clone https://github.com/bcgsc/ntSynt-viz.git
+export PATH=/path/to/ntsynt-viz/github/ntSynt-viz/bin:$PATH
+```
+
 ## Usage
 ```
 usage: ntsynt_viz.py [-h] --blocks BLOCKS --fais FAIS [FAIS ...] [--name_conversion NAME_CONVERSION] [--tree TREE] [--target-genome TARGET_GENOME] [--normalize]
