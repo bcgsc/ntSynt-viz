@@ -35,9 +35,10 @@ R -e 'install.packages(c("gggenomes"), repos = "https://cran.r-project.org")'
 ```
 
 ### Setting up environment to run ntSynt-viz
-Once all dependencies are installed, simply clone the source code, and add the `bin` directory to your PATH
+Once all dependencies are installed, simply download the source code tarball, and add the `bin` directory to your PATH
 ```
-git clone https://github.com/bcgsc/ntSynt-viz.git
+wget https://github.com/bcgsc/ntSynt-viz/releases/download/v1.0.0/ntSynt-viz-1.0.0.tar.gz
+tar xvzf ntSynt-viz-1.0.0.tar.gz
 export PATH=/path/to/ntsynt-viz/github/ntSynt-viz/bin:$PATH
 ```
 
