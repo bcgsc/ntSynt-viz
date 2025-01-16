@@ -1,3 +1,6 @@
+[![Release](https://img.shields.io/github/release/bcgsc/ntSynt-viz.svg)](https://github.com/bcgsc/ntSynt-viz/releases)
+![Logo](https://github.com/bcgsc/ntSynt-viz/blob/main/ntsynt-viz_logo_colors.png)
+
 # ntSynt-viz: Visualizing multi-genome synteny
 
 Here, we provide an easy-to-use pipeline for generating ribbon plots combined with chromosome painting to visualize multi-genome synteny blocks. The tool is set-up to accept synteny blocks formatted in the [ntSynt](https://github.com/bcgsc/ntSynt) style, but any synteny block file that adheres to the simple, BED-like TSV format of ntSynt can be visualized using ntSynt-viz.
