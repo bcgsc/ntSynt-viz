@@ -123,7 +123,7 @@ For more information about the output files from ntSynt-viz, check out our [wiki
 To visualize synteny blocks from synteny block detection tools other than ntSynt, the synteny blocks simply need to be converted to the straightforward [ntSynt format](https://github.com/bcgsc/ntsynt?tab=readme-ov-file#output-files). For convenience, we also provide some scripts to do this conversion in the `conversion_scripts` directory.
 
 ## License
-ntSynt-viz Copyright (c) 2024-present British Columbia Cancer Agency Branch. All rights reserved.
+ntSynt-viz Copyright (c) 2025-present British Columbia Cancer Agency Branch. All rights reserved.
 
 ntSynt-viz is released under the GNU General Public License v3
 
