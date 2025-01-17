@@ -1,9 +1,24 @@
 [![Release](https://img.shields.io/github/release/bcgsc/ntSynt-viz.svg)](https://github.com/bcgsc/ntSynt-viz/releases)
+[![link](https://img.shields.io/badge/ntSyntViz-preprint-brightgreen)](https://doi.org/10.1101/2025.01.15.633221)
+
 
 ![Logo](https://github.com/bcgsc/ntSynt-viz/blob/main/ntsynt-viz_logo_colors.png)
 
 # ntSynt-viz: Visualizing multi-genome synteny
 
+1. [Credit](#credit)
+2. [Description](#description)
+3. [Dependencies](#dependencies)
+4. [Installation](#install)
+5. [Usage](#usage)
+6. [Examples](#example)
+7. [Citing](#citing)
+8. [License](#license)
+
+## Credit  <a name=credit></a>
+Written by Lauren Coombe
+
+## Description <a name=description></a>
 ntSynt-viz is an easy-to-use framework for generating ribbon plots combined with chromosome painting to visualize multi-genome synteny blocks. The tool is set-up to accept synteny blocks formatted in the [ntSynt](https://github.com/bcgsc/ntSynt) style, but any synteny block file that adheres to the simple, BED-like TSV format of ntSynt can be visualized using ntSynt-viz.
 
 This flexible framework implements numerous features, including:
@@ -14,7 +29,7 @@ This flexible framework implements numerous features, including:
 
 These features ensure that the output ribbon plots (powered by [gggenomes](https://thackl.github.io/gggenomes/)) are as easily understandable and as information-rich as possible.
 
-## Dependencies
+## Dependencies <a name=dependencies></a>
 * python 3.8+
 * [intervaltree](https://github.com/chaimleib/intervaltree)
 * [snakemake](https://github.com/snakemake/snakemake)
@@ -32,7 +47,7 @@ These features ensure that the output ribbon plots (powered by [gggenomes](https
   * [scales](https://scales.r-lib.org/)
   * [stringr](https://stringr.tidyverse.org/)
 
-### Installing dependencies using conda
+### Installing dependencies using conda <a name=install></a>
 ```
 conda install --yes -c conda-forge -c bioconda quicktree snakemake intervaltree r-base bioconductor-treeio r-ggpubr bioconductor-ggtree r-phytools r-dplyr r-argparse r-scales r-stringr
 R -e 'install.packages(c("gggenomes"), repos = "https://cran.r-project.org")'
@@ -46,7 +61,7 @@ tar xvzf ntSynt-viz-1.0.0.tar.gz
 export PATH=/path/to/ntsynt-viz/github/ntSynt-viz/bin:$PATH
 ```
 
-## Usage
+## Usage <a name=usage></a>
 ```
 usage: ntsynt_viz.py [-h] --blocks BLOCKS --fais FAIS [FAIS ...] [--name_conversion NAME_CONVERSION] [--tree TREE] [--target-genome TARGET_GENOME] [--normalize]
                      [--indel INDEL] [--length LENGTH] [--seq_length SEQ_LENGTH] [--keep KEEP [KEEP ...]] [--centromeres CENTROMERES] [--haplotypes HAPLOTYPES]
@@ -103,7 +118,7 @@ execution arguments:
   -n                    Dry-run for snakemake pipeline
   -v, --version         show program's version number and exit
 ```
-## Example commands
+## Example commands <a name=example></a>
 All the files referenced in these commands can be found in the `tests` subfolder for you to use in testing.
 
 #### Plot ribbon plots with an input cladogram in newick format, normalizing the strands of the assembly chromosomes
@@ -123,7 +138,20 @@ For more information about the output files from ntSynt-viz, check out our [wiki
 ## Using ntSynt-viz with synteny blocks from tools other than ntSynt
 To visualize synteny blocks from synteny block detection tools other than ntSynt, the synteny blocks simply need to be converted to the straightforward [ntSynt format](https://github.com/bcgsc/ntsynt?tab=readme-ov-file#output-files). For convenience, we also provide some scripts to do this conversion in the `conversion_scripts` directory.
 
-## License
+## Citing <a name=citing></a>
+
+Thank you for your [![Stars](https://img.shields.io/github/stars/bcgsc/ntSynt-viz.svg)](https://github.com/bcgsc/ntSynt-viz/stargazers) and for using and promoting this free software! We hope that ntSynt-viz (& ntSynt) is useful to you and your research.
+
+If you use nSynt, please cite:
+
+[ntSynt-viz: Visualizing synteny patterns across multiple genomes](https://doi.org/10.1101/2025.01.15.633221)
+<pre>
+ntSynt-viz: Visualizing synteny patterns across multiple genomes
+Lauren Coombe, Rene L Warren, Inanc Birol
+bioRxiv 2025.01.15.633221; doi: https://doi.org/10.1101/2025.01.15.633221
+</pre>
+
+## License <a name=license></a>
 ntSynt-viz Copyright (c) 2025-present British Columbia Cancer Agency Branch. All rights reserved.
 
 ntSynt-viz is released under the GNU General Public License v3
