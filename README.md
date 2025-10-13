@@ -19,7 +19,7 @@
 Written by Lauren Coombe
 
 ## Description <a name=description></a>
-ntSynt-viz is an easy-to-use framework for generating ribbon plots combined with chromosome painting to visualize multi-genome synteny blocks. The tool is set-up to accept synteny blocks formatted in the [ntSynt](https://github.com/bcgsc/ntSynt) style, but any synteny block file that adheres to the simple, BED-like TSV format of ntSynt can be visualized using ntSynt-viz.
+ntSynt-viz is an easy-to-use framework for generating ribbon plots combined with chromosome painting to visualize multi-genome synteny blocks. The tool is set-up to accept synteny blocks formatted in the [ntSynt](https://github.com/bcgsc/ntSynt) style, but any multi-genome synteny block file that adheres to the simple, BED-like TSV format of ntSynt can be visualized using ntSynt-viz.
 
 This flexible framework implements numerous features, including:
 * Option to normalize the strands of input chromosomes based on a target assembly
