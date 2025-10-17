@@ -11,8 +11,16 @@ jobs:
     persistCredentials: true
     submodules: true
 
-  - script: echo "##vso[task.prependpath]$CONDA/bin"
-    displayName: Add conda to PATH
+  - script: |
+      mkdir -p ~/miniforge3
+      curl -L https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh  -o ~/miniforge3/miniforge.sh
+      bash ~/miniforge3/miniforge.sh -b -u -p ~/miniforge3
+      rm -rf  ~/miniforge3/miniforge.sh
+      ~/miniforge3/bin/conda init bash
+      ~/miniforge3/bin/conda init zsh
+      export CONDA=$(realpath ~/miniforge3/bin)
+      echo "##vso[task.prependpath]$CONDA"
+    displayName: Install conda
 
   - script: conda create --yes --quiet --name ntsynt_viz_ci
     displayName: Create Anaconda environment
@@ -20,7 +28,7 @@ jobs:
   - script: |
       source activate ntsynt_viz_ci
       conda install --yes -c bioconda -c conda-forge python=3.12 mamba
-      mamba install --yes -c conda-forge -c bioconda quicktree r-base bioconductor-treeio r-ggpubr bioconductor-ggtree r-phytools r-dplyr r-argparse r-scales r-stringr pylint intervaltree snakemake
+      mamba install --yes -c conda-forge -c bioconda quicktree r-base bioconductor-treeio r-ggpubr bioconductor-ggtree r-phytools r-dplyr r-argparse r-scales r-stringr pylint intervaltree snakemake 'r-ggplot2<4.0.0'
       # NOTE: Once treeio is updated in bioconda, you may be able to use r-gggenomes instead. I am getting conflicting package errors currently
       R -e 'install.packages(c("gggenomes"), repos = "https://cran.r-project.org")'
     displayName: Install dependencies
@@ -78,7 +86,7 @@ jobs:
 
   - script: |
       source activate ntsynt_viz_ci
-      mamba install --yes -c conda-forge -c bioconda quicktree r-base bioconductor-treeio r-ggpubr bioconductor-ggtree r-phytools r-dplyr r-argparse r-scales r-stringr pylint intervaltree snakemake
+      mamba install --yes -c conda-forge -c bioconda quicktree r-base bioconductor-treeio r-ggpubr bioconductor-ggtree r-phytools r-dplyr r-argparse r-scales r-stringr pylint intervaltree snakemake 'r-ggplot2<4.0.0'
       # NOTE: Once treeio is updated in bioconda, you may be able to use r-gggenomes instead. I am getting conflicting package errors currently
       R -e 'install.packages(c("gggenomes"), repos = "https://cran.r-project.org")'
     displayName: Install dependencies
