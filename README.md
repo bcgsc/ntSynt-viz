@@ -143,7 +143,12 @@ To visualize synteny blocks from synteny block detection tools other than ntSynt
 
 Thank you for your [![Stars](https://img.shields.io/github/stars/bcgsc/ntSynt-viz.svg)](https://github.com/bcgsc/ntSynt-viz/stargazers) and for using and promoting this free software! We hope that ntSynt-viz (& ntSynt) is useful to you and your research.
 
+
 If you use nSynt-viz, please cite:
+
+Coombe L, Kazemi P, Wong J, Birol I, Warren RL. 2025. multi-genome synteny detection using minimizer graph mappings. BMC Biology. 23:367. https://doi.org/10.1186/s12915-025-02455-w
+
+and
 
 [ntSynt-viz: Visualizing synteny patterns across multiple genomes](https://doi.org/10.1101/2025.01.15.633221)
 <pre>
