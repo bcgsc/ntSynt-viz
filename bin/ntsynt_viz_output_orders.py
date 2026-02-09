@@ -12,11 +12,13 @@ import subprocess
 from typing import Optional
 
 
-def generate_initial_orders(nwk: str, prefix: str, target: Optional[str]) -> None:
+def generate_initial_orders(nwk: str, prefix: str, target: Optional[str], tree: Optional[bool]) -> None:
     "Generate the initial orders"
     cmd = f"ntsynt_viz_distance_cladogram.R --nwk {nwk} -p {prefix}"
     if target:
         cmd += f" --target {target}"
+    if not tree:
+        cmd += " --update_nwk"
     subprocess.check_call(shlex.split(cmd))
 
 def adjust_orders(prefix: str, tree: bool, haplotypes: Optional[str]) -> None:
@@ -63,7 +65,7 @@ def main():
     args = parser.parse_args()
 
     # First, run the R script to get the initial orders
-    generate_initial_orders(args.nwk, args.prefix, args.target)
+    generate_initial_orders(args.nwk, args.prefix, args.target, args.tree)
 
     # Make adjustments to initial orders to ensure that haplotypes are together - only if --tree NOT specified
     adjust_orders(args.prefix, args.tree, args.haplotypes)

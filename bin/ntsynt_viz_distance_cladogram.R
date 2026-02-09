@@ -23,6 +23,7 @@ parser$add_argument("--lim", help = "Ratio adjustment for xlimits (default 0.1)"
 parser$add_argument("--png", help = "Output cladogram in PNG format", required = FALSE,
                     action = "store_true")
 parser$add_argument("--target", help = "Target genome to rotate to the top", required = FALSE)
+parser$add_argument("--update_nwk", help = "Update output nwk after midpoint rooting", required = FALSE, action = "store_true")
 
 args <- parser$parse_args()
 treefile <- treeio::read.newick(args$nwk)
@@ -77,3 +78,9 @@ if (args$png) {
 ordered_labels <- get_taxa_name(tree_ggtree)
 write.table(ordered_labels, paste(args$prefix, ".order_tmp.tsv", sep = ""),
             quote = FALSE, row.names = FALSE, col.names = FALSE)
+
+# write newick tree to file 
+if (args$update_nwk) {
+  cat(paste("Updating newick file", args$nwk, "with midpoint rooted tree.\n", sep = " "))
+  write.tree(as.phylo(tree_ggtree), file = args$nwk)
+}
