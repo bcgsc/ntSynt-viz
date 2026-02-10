@@ -213,10 +213,11 @@ if (is.null(args$tree)) {
     orders <- read.csv(args$order, sep = "\t", header = F)
     colnames(orders) <- c("label")
     named_order_vector <- setNames(1:length(orders$label), rev(orders$label))
-    is_tree_right_order <- identical(names(named_order_vector), as.phylo(ntsynt_ggtree)$tip.label)
+    is_tree_right_order <- identical(names(named_order_vector), get_taxa_name(ntsynt_ggtree))
     new_tree <- as.phylo(ntsynt_ggtree)
     while (! is_tree_right_order) {
       new_tree <- minRotate(new_tree, named_order_vector)
+      plotTree(as.phylo(new_tree))
       cat(new_tree$tip.label, "\n")
       cat(names(named_order_vector), "\n")
       is_tree_right_order <- identical(names(named_order_vector), new_tree$tip.label)
