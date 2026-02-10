@@ -133,7 +133,7 @@ rule cladogram:
     output:
         orders = f"{prefix}_est-distances.order.tsv",
         orders_tmp = temp(f"{prefix}_est-distances.order_tmp.tsv"),
-        nwk_tmp = temp(f"{prefix}_tmp.cladogram.nwk")
+        nwk_tmp = temp(f"{prefix}_est-distances_tmp.cladogram.nwk")
     params:
         prefix = f"{prefix}_est-distances",
         target = f"--target {target_genome}" if target_genome else "",
