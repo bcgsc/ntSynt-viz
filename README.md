@@ -46,7 +46,7 @@ These features ensure that the output ribbon plots (powered by [gggenomes](https
   * [argparse](https://cran.r-project.org/web/packages/argparse/index.html)
   * [scales](https://scales.r-lib.org/)
   * [stringr](https://stringr.tidyverse.org/)
-  * [ggplot2 (<4.0.0)](https://ggplot2.tidyverse.org)
+  * [ggplot2](https://ggplot2.tidyverse.org)
 
 ### Installing dependencies using conda <a name=install></a>
 ```
