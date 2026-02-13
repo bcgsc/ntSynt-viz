@@ -23,10 +23,11 @@ parser$add_argument("--lim", help = "Ratio adjustment for xlimits (default 0.1)"
 parser$add_argument("--png", help = "Output cladogram in PNG format", required = FALSE,
                     action = "store_true")
 parser$add_argument("--target", help = "Target genome to rotate to the top", required = FALSE)
+parser$add_argument("--update_nwk", help = "Update output nwk after midpoint rooting", required = FALSE, action = "store_true")
 
 args <- parser$parse_args()
 treefile <- treeio::read.newick(args$nwk)
-treefile <- midpoint_root(treefile)
+treefile <- phytools::midpoint_root(treefile)
 
 # Rotate the target genome to the top
 rotate_to_top <- function(tree, target) {
@@ -40,7 +41,7 @@ rotate_to_top <- function(tree, target) {
   # Build up list of parent root nodes
   parent_nodes <- list()
   while (!is.null(node)) {
-     parent_nodes <- c(parent_nodes, node)
+    parent_nodes <- c(parent_nodes, node)
     next_parent <- parent(tree$data, node)
     if (nrow(next_parent) > 0) {
       node <- next_parent$node
@@ -73,7 +74,11 @@ if (args$png) {
          dpi = 300)
 }
 
-
 ordered_labels <- get_taxa_name(tree_ggtree)
 write.table(ordered_labels, paste(args$prefix, ".order_tmp.tsv", sep = ""),
             quote = FALSE, row.names = FALSE, col.names = FALSE)
+
+# write rotated newick tree to file 
+if (args$update_nwk) {
+  write.tree(as.phylo(tree_ggtree), file = paste(args$prefix, "_tmp.cladogram.nwk", sep = ""))
+}

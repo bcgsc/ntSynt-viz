@@ -132,7 +132,8 @@ rule cladogram:
         rules.make_nj_tree.output
     output:
         orders = f"{prefix}_est-distances.order.tsv",
-        orders_tmp = temp(f"{prefix}_est-distances.order_tmp.tsv")
+        orders_tmp = temp(f"{prefix}_est-distances.order_tmp.tsv"),
+        nwk_tmp = temp(f"{prefix}_est-distances_tmp.cladogram.nwk")
     params:
         prefix = f"{prefix}_est-distances",
         target = f"--target {target_genome}" if target_genome else "",
@@ -250,7 +251,7 @@ rule ribbon_plot_tree:
     input: 
         links = rules.gggenomes_files.output.links,
         sequences = rules.chrom_sorting.output.sorted_seqs,
-        tree = rules.make_nj_tree.output,
+        tree = rules.cladogram.output.nwk_tmp,
         colour_feats = rules.chrom_paint.output.colour_feats,
         orders = rules.cladogram.output.orders,
         haplotypes = rules.nudges.output.nudges if haplotypes else []

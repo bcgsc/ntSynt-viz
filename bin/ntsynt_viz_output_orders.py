@@ -14,7 +14,7 @@ from typing import Optional
 
 def generate_initial_orders(nwk: str, prefix: str, target: Optional[str]) -> None:
     "Generate the initial orders"
-    cmd = f"ntsynt_viz_distance_cladogram.R --nwk {nwk} -p {prefix}"
+    cmd = f"ntsynt_viz_distance_cladogram.R --nwk {nwk} -p {prefix} --update_nwk"
     if target:
         cmd += f" --target {target}"
     subprocess.check_call(shlex.split(cmd))

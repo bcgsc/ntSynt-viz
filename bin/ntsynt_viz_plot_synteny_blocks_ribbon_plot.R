@@ -207,17 +207,23 @@ if (is.null(args$tree)) {
   # Prepare the tree
   ntsynt_tree <- treeio::read.newick(args$tree)
   ntsynt_tree <- phytools::midpoint_root(ntsynt_tree)
-
   if (!is.null(args$order)) {
     ntsynt_ggtree <- ggtree(ntsynt_tree, branch.length = "none") # Initial tree to rotate
     orders <- read.csv(args$order, sep = "\t", header = F)
     colnames(orders) <- c("label")
     named_order_vector <- setNames(1:length(orders$label), rev(orders$label))
-    is_tree_right_order <- identical(names(named_order_vector), as.phylo(ntsynt_ggtree)$tip.label)
+    is_tree_right_order <- identical(names(named_order_vector), get_taxa_name(ntsynt_ggtree))
     new_tree <- as.phylo(ntsynt_ggtree)
-    while (! is_tree_right_order) {
+    
+    max_iterations <- 100
+    iterations <- 0
+    while (!is_tree_right_order && iterations < max_iterations) {
       new_tree <- minRotate(new_tree, named_order_vector)
       is_tree_right_order <- identical(names(named_order_vector), new_tree$tip.label)
+      iterations <- iterations + 1
+    }
+    if (!is_tree_right_order) {
+      stop("Error: Tree could not be reordered within the maximum iterations.")
     }
     new_tree <- rename_taxa(new_tree, name_conversions)
     ntsynt_ggtree <- ggtree(new_tree, branch.length = "none", ladderize = FALSE)
