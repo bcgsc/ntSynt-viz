@@ -50,8 +50,7 @@ These features ensure that the output ribbon plots (powered by [gggenomes](https
 
 ### Installing dependencies using conda <a name=install></a>
 ```
-conda install --yes -c conda-forge -c bioconda quicktree snakemake intervaltree r-base bioconductor-treeio r-ggpubr bioconductor-ggtree r-phytools r-dplyr r-argparse r-scales r-stringr
-R -e 'install.packages(c("gggenomes"), repos = "https://cran.r-project.org")'
+conda install --yes -c conda-forge -c bioconda quicktree snakemake intervaltree r-base bioconductor-treeio r-ggpubr bioconductor-ggtree r-phytools r-dplyr r-argparse r-scales r-stringr r-gggenomes
 ```
 
 ### Setting up environment to run ntSynt-viz

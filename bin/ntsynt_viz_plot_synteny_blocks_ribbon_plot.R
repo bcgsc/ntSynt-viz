@@ -212,7 +212,7 @@ if (is.null(args$tree)) {
     orders <- read.csv(args$order, sep = "\t", header = F)
     colnames(orders) <- c("label")
     named_order_vector <- setNames(1:length(orders$label), rev(orders$label))
-    is_tree_right_order <- identical(names(named_order_vector), get_taxa_name(ntsynt_ggtree))
+    is_tree_right_order <- identical(names(named_order_vector), as.phylo(ntsynt_ggtree)$tip.label)
     new_tree <- as.phylo(ntsynt_ggtree)
     
     max_iterations <- 100
