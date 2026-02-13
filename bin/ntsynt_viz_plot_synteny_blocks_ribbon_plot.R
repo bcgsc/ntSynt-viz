@@ -207,7 +207,6 @@ if (is.null(args$tree)) {
   # Prepare the tree
   ntsynt_tree <- treeio::read.newick(args$tree)
   ntsynt_tree <- phytools::midpoint_root(ntsynt_tree)
-  print("Before renaming tree tip labels:\n")
   if (!is.null(args$order)) {
     ntsynt_ggtree <- ggtree(ntsynt_tree, branch.length = "none") # Initial tree to rotate
     orders <- read.csv(args$order, sep = "\t", header = F)
@@ -217,9 +216,6 @@ if (is.null(args$tree)) {
     new_tree <- as.phylo(ntsynt_ggtree)
     while (! is_tree_right_order) {
       new_tree <- minRotate(new_tree, named_order_vector)
-      plotTree(as.phylo(new_tree))
-      cat(new_tree$tip.label, "\n")
-      cat(names(named_order_vector), "\n")
       is_tree_right_order <- identical(names(named_order_vector), new_tree$tip.label)
     }
     new_tree <- rename_taxa(new_tree, name_conversions)
