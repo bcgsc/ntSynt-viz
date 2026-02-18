@@ -46,7 +46,6 @@ jobs:
       export PATH=$(pwd)/bin:$PATH
       cd tests
       ntsynt_viz.py --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv --tree great-apes.mt-tree.nwk --name_conversion great-apes.name-conversions.tsv --normalize --prefix great-apes_ribbon-plots --ribbon_adjust 0.14 --scale 1e9
-      mv great-apes_ribbon-plots_ribbon-plot_tree.png great-apes_ribbon-plots_ribbon-plot_tree_example1.png
     displayName: Run Example 1 test
 
   - script: |
@@ -57,10 +56,10 @@ jobs:
       diff -q great-apes_ribbon-plots_no-tree_est-distances.order.tsv expected/great-apes_ribbon-plots_no-tree_est-distances.order.tsv
     displayName: Run Example 2 test
 
-  - publish: tests/great-apes_ribbon-plots_ribbon-plot_tree_example1.png
+  - publish: tests/great-apes_ribbon-plots_ribbon-plot_tree.png
     artifact: Example1
 
-  - publish: tests/great-apes_ribbon-plots_ribbon-plot_tree.png
+  - publish: tests/great-apes_ribbon-plots_ribbon-plot_no-tree.png
     artifact: Example2
 
 
