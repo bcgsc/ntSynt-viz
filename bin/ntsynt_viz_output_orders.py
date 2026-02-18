@@ -7,17 +7,7 @@ If --tree NOT specified, then ensure that haplotypes are together, choosing a re
 if they are not together in the cladogram.
 '''
 import argparse
-import shlex
-import subprocess
 from typing import Optional
-
-
-def generate_initial_orders(nwk: str, prefix: str, target: Optional[str]) -> None:
-    "Generate the initial orders"
-    cmd = f"ntsynt_viz_distance_cladogram.R --nwk {nwk} -p {prefix} --update_nwk"
-    if target:
-        cmd += f" --target {target}"
-    subprocess.check_call(shlex.split(cmd))
 
 def adjust_orders(prefix: str, tree: bool, haplotypes: Optional[str]) -> None:
     "Make adjustments to initial orders to ensure that haplotypes are together, if applicable"
@@ -53,17 +43,12 @@ def adjust_orders(prefix: str, tree: bool, haplotypes: Optional[str]) -> None:
 def main():
     "Output the orders for assemblies in ribbon plots"
     parser = argparse.ArgumentParser(description="Output the orders for assemblies in ribbon plots")
-    parser.add_argument("--nwk", help="Newick file", required=True, type=str)
     parser.add_argument("-p", "--prefix", help="Output prefix for file ordering [ntsynt_orders]",
                         required=False, default="ntsynt_orders")
-    parser.add_argument("--target", help="Target genome to rotate to the top", required=False)
     parser.add_argument("--haplotypes", help="Haplotypes TSV", required=False, type=str)
     parser.add_argument("--tree", help="A tree has been supplied to the ntSynt-viz pipeline", action="store_true")
 
     args = parser.parse_args()
-
-    # First, run the R script to get the initial orders
-    generate_initial_orders(args.nwk, args.prefix, args.target)
 
     # Make adjustments to initial orders to ensure that haplotypes are together - only if --tree NOT specified
     adjust_orders(args.prefix, args.tree, args.haplotypes)

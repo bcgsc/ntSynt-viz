@@ -134,7 +134,7 @@ make_plot <- function(links, sequences, painting, add_scale_bar = FALSE, centrom
   geom_link(aes(fill = colour_block,
                y = get_y_coord(haplotypes, .data$bin_id, .data$y),
               yend = get_y_coord(haplotypes, .data$bin_id, .data$yend, end = TRUE)),
-               offset = 0, alpha = 0.5, size = 0.05) +
+               offset = 0, alpha = 0.5, linewidth = 0.05) +
   geom_seq(aes(y = get_y_coord(haplotypes, .data$bin_id, .data$y),
                yend = get_y_coord(haplotypes, bin_id, .data$y)),
                size = 2, colour = "darkgrey") + # draw contig/chromosome lines

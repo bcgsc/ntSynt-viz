@@ -131,20 +131,29 @@ rule cladogram:
     input:
         rules.make_nj_tree.output
     output:
-        orders = f"{prefix}_est-distances.order.tsv",
         orders_tmp = temp(f"{prefix}_est-distances.order_tmp.tsv"),
         nwk_tmp = temp(f"{prefix}_est-distances_tmp.cladogram.nwk")
     params:
         prefix = f"{prefix}_est-distances",
-        target = f"--target {target_genome}" if target_genome else "",
+        target = f"--target {target_genome}" if target_genome else ""
+    shell:
+        "which Rscript && which python3 && ntsynt_viz_distance_cladogram.R --nwk {input} -p {params.prefix} --update_nwk {params.target}" 
+
+rule orders:
+    input: 
+        rules.cladogram.output.orders_tmp
+    output:
+        orders = f"{prefix}_est-distances.order.tsv",
+    params:
+        prefix = f"{prefix}_est-distances",
         tree_flag = "--tree" if tree is not None else "",
         haplotypes = f"--haplotypes {haplotypes}" if haplotypes else ""
     shell:
-        "ntsynt_viz_output_orders.py --nwk {input} -p {params.prefix} {params.target} {params.tree_flag} {params.haplotypes}"
+        "ntsynt_viz_output_orders.py -p {params.prefix} {params.tree_flag} {params.haplotypes}"
 
 rule nudges:
     input: 
-        orders = rules.cladogram.output.orders,
+        orders = rules.orders.output.orders,
         haplotypes = haplotypes
     output:
         nudges = temp(f"{prefix}_orders-nudges.tsv")
@@ -154,7 +163,7 @@ rule nudges:
 rule sort_blocks:
     input: 
         blocks = f"{blocks_no_suffix}.renamed.tsv",
-        orders = rules.cladogram.output.orders,
+        orders = rules.orders.output.orders,
         fais = fais
     output:
         sorted_blocks = f"{blocks_no_suffix}.renamed.sorted.blocks.tsv",
@@ -182,7 +191,7 @@ rule sort_blocks:
 rule gggenomes_files:
     input: 
         fais = fais,
-        orders = rules.cladogram.output.orders,
+        orders = rules.orders.output.orders,
         blocks = rules.sort_blocks.output.sorted_blocks,
         oris = rules.sort_blocks.output.chrom_oris if normalize else []
     output:
@@ -207,7 +216,7 @@ rule gggenomes_files:
 rule chrom_sorting:
     input: 
         fais = fais,
-        orders = rules.cladogram.output.orders,
+        orders = rules.orders.output.orders,
         sequences = rules.gggenomes_files.output.sequences,
         blocks = rules.sort_blocks.output.sorted_blocks
     output:
@@ -253,7 +262,7 @@ rule ribbon_plot_tree:
         sequences = rules.chrom_sorting.output.sorted_seqs,
         tree = rules.cladogram.output.nwk_tmp,
         colour_feats = rules.chrom_paint.output.colour_feats,
-        orders = rules.cladogram.output.orders,
+        orders = rules.orders.output.orders,
         haplotypes = rules.nudges.output.nudges if haplotypes else []
     output:
         out_img = f"{prefix}_ribbon-plot_tree.png" if format_img == "png" else f"{prefix}_ribbon-plot_tree.pdf"
