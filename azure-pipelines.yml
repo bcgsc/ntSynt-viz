@@ -59,7 +59,7 @@ jobs:
   - publish: tests/great-apes_ribbon-plots_ribbon-plot_tree.png
     artifact: Example1
 
-  - publish: tests/great-apes_ribbon-plots_ribbon-plot_no-tree.png
+  - publish: tests/great-apes_ribbon-plots_no-tree_ribbon-plot.png
     artifact: Example2
 
 
