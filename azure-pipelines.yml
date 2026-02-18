@@ -58,7 +58,10 @@ jobs:
     displayName: Run Example 2 test
 
   - publish: tests/great-apes_ribbon-plots_ribbon-plot_tree_example1.png
-    artifact: Example1.png
+    artifact: Example1
+
+  - publish: tests/great-apes_ribbon-plots_ribbon-plot_tree.png
+    artifact: Example2
 
 
 - job:

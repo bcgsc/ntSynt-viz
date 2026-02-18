@@ -137,7 +137,7 @@ rule cladogram:
         prefix = f"{prefix}_est-distances",
         target = f"--target {target_genome}" if target_genome else ""
     shell:
-        "which Rscript && which python3 && ntsynt_viz_distance_cladogram.R --nwk {input} -p {params.prefix} --update_nwk {params.target}" 
+        "ntsynt_viz_distance_cladogram.R --nwk {input} -p {params.prefix} --update_nwk {params.target}" 
 
 rule orders:
     input: 
