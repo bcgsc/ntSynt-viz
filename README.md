@@ -56,8 +56,8 @@ conda install --yes -c conda-forge -c bioconda quicktree snakemake intervaltree 
 ### Setting up environment to run ntSynt-viz
 Once all dependencies are installed, simply download the source code tarball, and add the `bin` directory to your PATH
 ```
-wget https://github.com/bcgsc/ntSynt-viz/releases/download/v1.0.0/ntSynt-viz-1.0.0.tar.gz
-tar xvzf ntSynt-viz-1.0.0.tar.gz
+wget https://github.com/bcgsc/ntSynt-viz/releases/download/v1.0.1/ntSynt-viz-1.0.1.tar.gz
+tar xvzf ntSynt-viz-1.0.1.tar.gz
 export PATH=/path/to/ntsynt-viz/github/ntSynt-viz/bin:$PATH
 ```
 
