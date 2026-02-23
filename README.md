@@ -1,5 +1,5 @@
-[![Release](https://img.shields.io/github/release/bcgsc/ntSynt-viz.svg)](https://github.com/bcgsc/ntSynt-viz/releases)
-[![link](https://img.shields.io/badge/ntSyntViz-preprint-brightgreen)](https://doi.org/10.1101/2025.01.15.633221)
+![GitHub Release](https://img.shields.io/github/v/release/bcgsc/ntsynt-viz?display_name=release)
+[![Preprint](https://img.shields.io/badge/ntSynt--viz-Preprint-6f42c1)](https://www.biorxiv.org/content/10.1101/2025.01.15.633221v2)
 
 
 ![Logo](https://github.com/bcgsc/ntSynt-viz/blob/main/ntsynt-viz_logo_colors.png)
@@ -48,13 +48,13 @@ These features ensure that the output ribbon plots (powered by [gggenomes](https
   * [stringr](https://stringr.tidyverse.org/)
   * [ggplot2](https://ggplot2.tidyverse.org)
 
-### Installing dependencies using conda <a name=install></a>
+### Installing ntSynt-viz using conda <a name=install></a>
 ```
-conda install --yes -c conda-forge -c bioconda quicktree snakemake intervaltree r-base bioconductor-treeio r-ggpubr bioconductor-ggtree r-phytools r-dplyr r-argparse r-scales r-stringr r-gggenomes
+conda install -c conda-forge -c bioconda ntsynt-viz
 ```
 
-### Setting up environment to run ntSynt-viz
-Once all dependencies are installed, simply download the source code tarball, and add the `bin` directory to your PATH
+### Running ntSynt-viz using the source code
+Once all dependencies are installed, download the source code tarball, and add the `bin` directory to your PATH
 ```
 wget https://github.com/bcgsc/ntSynt-viz/releases/download/v1.0.1/ntSynt-viz-1.0.1.tar.gz
 tar xvzf ntSynt-viz-1.0.1.tar.gz
