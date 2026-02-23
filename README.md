@@ -1,5 +1,5 @@
 ![GitHub Release](https://img.shields.io/github/v/release/bcgsc/ntsynt-viz?display_name=release)
-[![link](https://img.shields.io/badge/ntSyntViz-preprint-brightgreen)](https://doi.org/10.1101/2025.01.15.633221)
+[![Preprint](https://img.shields.io/badge/ntSynt--viz-Preprint-6f42c1)](https://www.biorxiv.org/content/10.1101/2025.01.15.633221v2)
 
 
 ![Logo](https://github.com/bcgsc/ntSynt-viz/blob/main/ntsynt-viz_logo_colors.png)
