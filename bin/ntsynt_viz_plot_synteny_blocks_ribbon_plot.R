@@ -125,8 +125,6 @@ get_y_coord <- function(haplotypes, bin_id, y, end=FALSE) {
 make_plot <- function(links, sequences, painting, colours_df, add_scale_bar = FALSE, centromeres = FALSE, add_arrow = FALSE, haplotypes = FALSE) {
   target_genome <- (sequences %>% head(1) %>% select(bin_id))[[1]]
   sequences_filt <- unique((sequences %>% filter(bin_id == target_genome))$seq_id)
-  #num_colours <- length(sequences_filt)
-  #colours <- hue_pal()(num_colours)
   num_colours <- unique(colours_df$num_seqs)
   colours <- hue_pal()(num_colours)[colours_df$colour_index]
   
