@@ -141,9 +141,6 @@ def main():
 
     target_genome_seqs = get_target_genome_seqs(args.fais[0])
 
-    output_lengths_gggenome = open(f"{args.prefix}.sequence_lengths.sorted.tsv", 'w', encoding="utf-8")
-    output_colour_indices = open(f"{args.prefix}.target_colours.tsv", 'w', encoding="utf-8")
-
     with open(args.lengths, 'r', encoding='utf-8') as fin, \
          open(f"{args.prefix}.sequence_lengths.sorted.tsv", 'w', encoding="utf-8") as output_lengths_gggenome, \
          open(f"{args.prefix}.target_colours.tsv", 'w', encoding="utf-8") as output_colour_indices:
@@ -167,6 +164,7 @@ def main():
         asm_orders_asm = asm_seq_orders[asm]
         for line in sorted(lines_list, key=lambda x: asm_orders_asm[x[1]]): # pylint: disable=cell-var-from-loop
             output_lengths_gggenome.write("\t".join(line) + "\n")
+
 
 
 if __name__ == "__main__":
