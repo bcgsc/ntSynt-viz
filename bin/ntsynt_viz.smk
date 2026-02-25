@@ -220,13 +220,14 @@ rule chrom_sorting:
         sequences = rules.gggenomes_files.output.sequences,
         blocks = rules.sort_blocks.output.sorted_blocks
     output:
-        sorted_seqs = f"{prefix}.sequence_lengths.sorted.tsv"
+        sorted_seqs = f"{prefix}.sequence_lengths.sorted.tsv",
+        colour_info = f"{prefix}.target_colours.tsv"
     run:
         if name_conversion:
             fais = sort_fais(input.fais, name_conversion, input.orders)
         else:
             fais = sort_fais_no_name_conversion(input.fais, input.orders)
-        shell(f"ntsynt_viz_sort_sequences.py --fai {fais} --blocks {input.blocks} --lengths {input.sequences} > {output.sorted_seqs}")
+        shell(f"ntsynt_viz_sort_sequences.py --fai {fais} --blocks {input.blocks} --lengths {input.sequences} --prefix {prefix}")
 
 rule chrom_paint:
     input: links = rules.gggenomes_files.output.links
@@ -239,7 +240,8 @@ rule ribbon_plot:
         links = rules.gggenomes_files.output.links,
         sequences = rules.chrom_sorting.output.sorted_seqs,
         colour_feats = rules.chrom_paint.output.colour_feats,
-        haplotypes = rules.nudges.output.nudges if haplotypes else []
+        haplotypes = rules.nudges.output.nudges if haplotypes else [],
+        colour_seqs = rules.chrom_sorting.output.colour_info
     output:
         out_img = f"{prefix}_ribbon-plot.png" if format_img == "png" else f"{prefix}_ribbon-plot.pdf"
     params:
@@ -254,7 +256,7 @@ rule ribbon_plot:
     shell:
         "ntsynt_viz_plot_synteny_blocks_ribbon_plot.R -s {input.sequences} -l {input.links} -p {params.prefix} --ratio {params.ratio}" 
         " --scale {params.scale} -c {input.colour_feats} --format {params.out_img_format} --height {params.height} --width {params.width}"
-        " {params.centromeres} {params.arrow} {params.haplotypes}"
+        " {params.centromeres} {params.arrow} {params.haplotypes} --colour_indices {input.colour_seqs}"
 
 rule ribbon_plot_tree:
     input: 
@@ -263,7 +265,8 @@ rule ribbon_plot_tree:
         tree = rules.cladogram.output.nwk_tmp,
         colour_feats = rules.chrom_paint.output.colour_feats,
         orders = rules.orders.output.orders,
-        haplotypes = rules.nudges.output.nudges if haplotypes else []
+        haplotypes = rules.nudges.output.nudges if haplotypes else [],
+        colour_seqs = rules.chrom_sorting.output.colour_info
     output:
         out_img = f"{prefix}_ribbon-plot_tree.png" if format_img == "png" else f"{prefix}_ribbon-plot_tree.pdf"
     params:
@@ -278,4 +281,4 @@ rule ribbon_plot_tree:
     shell:
         "ntsynt_viz_plot_synteny_blocks_ribbon_plot.R -s {input.sequences} -l {input.links} -p {params.prefix} --tree {input.tree}"
         " --ratio {params.ratio} --scale {params.scale} -c {input.colour_feats} --format {params.out_img_format}  --height {params.height} --width {params.width}"
-        " --order {input.orders} {params.centromeres} {params.arrow} {params.haplotypes}"
+        " --order {input.orders} {params.centromeres} {params.arrow} {params.haplotypes} --colour_indices {input.colour_seqs}"
