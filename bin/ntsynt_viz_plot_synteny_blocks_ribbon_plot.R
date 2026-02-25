@@ -30,6 +30,7 @@ parser$add_argument("--no-arrow", help = paste("Do not plot arrows indicating re
                                                 "Only use when blocks were normalized."),
                     action = "store_true", default = FALSE)
 parser$add_argument("--haplotypes", help = "TSV with haplotype nudges", required = FALSE)
+parser$add_argument("--colour_indices", help = "TSV with information about colour selection", required = TRUE)
 parser$add_argument("--ratio",
                     help = paste("Ratio adjustment for labels on left side of the ribbon plot.",
                                  "Increase if the labels are cut-off,",
@@ -95,6 +96,9 @@ if (scale %% 1e9 == 0) {
 painting <- read.csv(args$painting, sep = "\t", header = TRUE) %>%
   mutate(bin_id = str_replace_all(bin_id, "_", " "))
 
+# Read in the data frame with info about colours to choose for sequences
+colours_df <- read.csv(args$colour_indices, sep = "\t", header = TRUE)
+
 # Get the y coordinates for the features
 get_y_coord <- function(haplotypes, bin_id, y, end=FALSE) {
   if (typeof(haplotypes) == "logical") {
@@ -118,11 +122,11 @@ get_y_coord <- function(haplotypes, bin_id, y, end=FALSE) {
 }
 
 # Make the ribbon plot - these layers can be fully customized as needed!
-make_plot <- function(links, sequences, painting, add_scale_bar = FALSE, centromeres = FALSE, add_arrow = FALSE, haplotypes = FALSE) {
+make_plot <- function(links, sequences, painting, colours_df, add_scale_bar = FALSE, centromeres = FALSE, add_arrow = FALSE, haplotypes = FALSE) {
   target_genome <- (sequences %>% head(1) %>% select(bin_id))[[1]]
   sequences_filt <- unique((sequences %>% filter(bin_id == target_genome))$seq_id)
-  num_colours <- length(sequences_filt)
-  colours <- hue_pal()(num_colours)
+  num_colours <- unique(colours_df$num_seqs)
+  colours <- hue_pal()(num_colours)[colours_df$colour_index]
   
   if (is.data.frame(centromeres)) {
     p <-  gggenomes(seqs = sequences, links = links, feats = list(painting, centromeres))
@@ -196,7 +200,7 @@ if (! is.null(args$centromeres)) {
 }
 
 # Make the ribbon plot
-synteny_plot <- make_plot(links_ntsynt, sequences, painting, add_scale_bar = TRUE, centromeres = centromeres,
+synteny_plot <- make_plot(links_ntsynt, sequences, painting, colours_df, add_scale_bar = TRUE, centromeres = centromeres,
                           add_arrow = !args$no_arrow, haplotypes = haplotypes)
 
 

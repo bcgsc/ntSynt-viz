@@ -115,6 +115,12 @@ def get_mapped_tiles(tree, fai_filenames, tile, asm_orders):
 
     return all_asm_seq_orders
 
+def get_target_genome_seqs(fai_filename):
+    "Create dictionary with key sequence name, and value index in the input file"
+    with open(fai_filename, 'r', encoding="utf-8") as fin:
+        target_genome_seqs = {line.strip().split("\t")[0]: i for i, line in enumerate(fin)}
+    return target_genome_seqs
+
 
 def main():
     "Sort the sequences based on tiles on the target assembly"
@@ -125,6 +131,7 @@ def main():
                         required=True, type=str)
     parser.add_argument("--tile", help="Tile size in bp [1 Mbp]", default=1000000, type=int)
     parser.add_argument("--lengths", help="Sequences lengths gggenomes TSV", required=True, type=str)
+    parser.add_argument("--prefix", help="Output file prefix", required=True, type=str)
 
     args = parser.parse_args()
 
@@ -132,12 +139,20 @@ def main():
 
     asm_seq_orders = get_mapped_tiles(blocks_tree, args.fais, args.tile, asm_orders)
 
-    stored_lines = {} # asm -> stored_lines
-    with open(args.lengths, 'r', encoding='utf-8') as fin:
+    target_genome_seqs = get_target_genome_seqs(args.fais[0])
+
+    with open(args.lengths, 'r', encoding='utf-8') as fin, \
+         open(f"{args.prefix}.sequence_lengths.sorted.tsv", 'w', encoding="utf-8") as output_lengths_gggenome, \
+         open(f"{args.prefix}.target_colours.tsv", 'w', encoding="utf-8") as output_colour_indices:
+        stored_lines = {} # asm -> stored_lines
         for line in fin:
             asm_name, chrom, length, relative_ori = line.strip().split("\t")
-            if asm_name in ["bin_id", asm_orders[0]]:
-                print(asm_name, chrom, length, relative_ori, sep="\t")
+            if asm_name == "bin_id":
+                output_lengths_gggenome.write(line)
+                output_colour_indices.write("chrom\tcolour_index\tnum_seqs\n")
+            elif asm_name == asm_orders[0]:
+                output_lengths_gggenome.write(line)
+                output_colour_indices.write(f"{chrom}\t{target_genome_seqs[chrom] + 1}\t{len(target_genome_seqs)}\n")
             else:
                 if asm_name not in stored_lines:
                     stored_lines[asm_name] = []
@@ -145,10 +160,11 @@ def main():
                 if chrom not in asm_seq_orders[asm_name]:
                     asm_seq_orders[asm_name][chrom] = len(asm_seq_orders[asm_name])
 
-    for asm, lines_list in stored_lines.items():
-        asm_orders_asm = asm_seq_orders[asm]
-        for line in sorted(lines_list, key=lambda x: asm_orders_asm[x[1]]): # pylint: disable=cell-var-from-loop
-            print(*line, sep="\t")
+        for asm, lines_list in stored_lines.items():
+            asm_orders_asm = asm_seq_orders[asm]
+            for line in sorted(lines_list, key=lambda x: asm_orders_asm[x[1]]): # pylint: disable=cell-var-from-loop
+                output_lengths_gggenome.write("\t".join(line) + "\n")
+
 
 
 if __name__ == "__main__":
