@@ -160,10 +160,10 @@ def main():
                 if chrom not in asm_seq_orders[asm_name]:
                     asm_seq_orders[asm_name][chrom] = len(asm_seq_orders[asm_name])
 
-    for asm, lines_list in stored_lines.items():
-        asm_orders_asm = asm_seq_orders[asm]
-        for line in sorted(lines_list, key=lambda x: asm_orders_asm[x[1]]): # pylint: disable=cell-var-from-loop
-            output_lengths_gggenome.write("\t".join(line) + "\n")
+        for asm, lines_list in stored_lines.items():
+            asm_orders_asm = asm_seq_orders[asm]
+            for line in sorted(lines_list, key=lambda x: asm_orders_asm[x[1]]): # pylint: disable=cell-var-from-loop
+                output_lengths_gggenome.write("\t".join(line) + "\n")
 
 
 
