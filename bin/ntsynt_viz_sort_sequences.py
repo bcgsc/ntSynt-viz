@@ -144,8 +144,10 @@ def main():
     output_lengths_gggenome = open(f"{args.prefix}.sequence_lengths.sorted.tsv", 'w', encoding="utf-8")
     output_colour_indices = open(f"{args.prefix}.target_colours.tsv", 'w', encoding="utf-8")
 
-    stored_lines = {} # asm -> stored_lines
-    with open(args.lengths, 'r', encoding='utf-8') as fin:
+    with open(args.lengths, 'r', encoding='utf-8') as fin, \
+         open(f"{args.prefix}.sequence_lengths.sorted.tsv", 'w', encoding="utf-8") as output_lengths_gggenome, \
+         open(f"{args.prefix}.target_colours.tsv", 'w', encoding="utf-8") as output_colour_indices:
+        stored_lines = {} # asm -> stored_lines
         for line in fin:
             asm_name, chrom, length, relative_ori = line.strip().split("\t")
             if asm_name == "bin_id":
@@ -165,9 +167,6 @@ def main():
         asm_orders_asm = asm_seq_orders[asm]
         for line in sorted(lines_list, key=lambda x: asm_orders_asm[x[1]]): # pylint: disable=cell-var-from-loop
             output_lengths_gggenome.write("\t".join(line) + "\n")
-
-    output_lengths_gggenome.close()
-    output_colour_indices.close()
 
 
 if __name__ == "__main__":
