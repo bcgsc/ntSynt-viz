@@ -35,7 +35,7 @@ These features ensure that the output ribbon plots (powered by [gggenomes](https
 * [snakemake](https://github.com/snakemake/snakemake)
 * [quicktree](https://github.com/khowe/quicktree)
 * R packages:
-  * [gggenomes](https://github.com/thackl/gggenomes)
+  * [gggenomes >=1.1.0](https://github.com/thackl/gggenomes)
   * [treeio](https://www.bioconductor.org/packages/release/bioc/html/treeio.html)
   * [ggpubr](https://rpkgs.datanovia.com/ggpubr/)
   * [ggtree](https://github.com/YuLab-SMU/ggtree)
