@@ -1,8 +1,8 @@
-![GitHub Release](https://img.shields.io/github/v/release/bcgsc/ntsynt-viz?display_name=release)
+![GitHub Release](https://img.shields.io/github/v/release/BirolLab/ntsynt-viz?display_name=release)
 [![Preprint](https://img.shields.io/badge/ntSynt--viz-Preprint-6f42c1)](https://www.biorxiv.org/content/10.1101/2025.01.15.633221v2)
 
 
-![Logo](https://github.com/bcgsc/ntSynt-viz/blob/main/ntsynt-viz_logo_colors.png)
+![Logo](https://github.com/BirolLab/ntSynt-viz/blob/main/ntsynt-viz_logo_colors.png)
 
 # ntSynt-viz: Visualizing multi-genome synteny
 
@@ -19,7 +19,7 @@
 Written by Lauren Coombe
 
 ## Description <a name=description></a>
-ntSynt-viz is an easy-to-use framework for generating ribbon plots combined with chromosome painting to visualize multi-genome synteny blocks. The tool is set-up to accept synteny blocks formatted in the [ntSynt](https://github.com/bcgsc/ntSynt) style, but any multi-genome synteny block file that adheres to the simple, BED-like TSV format of ntSynt can be visualized using ntSynt-viz.
+ntSynt-viz is an easy-to-use framework for generating ribbon plots combined with chromosome painting to visualize multi-genome synteny blocks. The tool is set-up to accept synteny blocks formatted in the [ntSynt](https://github.com/BirolLab/ntSynt) style, but any multi-genome synteny block file that adheres to the simple, BED-like TSV format of ntSynt can be visualized using ntSynt-viz.
 
 This flexible framework implements numerous features, including:
 * Option to normalize the strands of input chromosomes based on a target assembly
@@ -56,7 +56,7 @@ conda install -c conda-forge -c bioconda ntsynt-viz
 ### Running ntSynt-viz using the source code
 Once all dependencies are installed, download the source code tarball, and add the `bin` directory to your PATH
 ```
-wget https://github.com/bcgsc/ntSynt-viz/releases/download/v1.0.2/ntSynt-viz-1.0.2.tar.gz
+wget https://github.com/BirolLab/ntSynt-viz/releases/download/v1.0.2/ntSynt-viz-1.0.2.tar.gz
 tar xvzf ntSynt-viz-1.0.2.tar.gz
 export PATH=/path/to/ntsynt-viz/github/ntSynt-viz/bin:$PATH
 ```
@@ -125,22 +125,22 @@ All the files referenced in these commands can be found in the `tests` subfolder
 ```
 ntsynt_viz.py --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv --tree great-apes.mt-tree.nwk --name_conversion great-apes.name-conversions.tsv --normalize --prefix great-apes_ribbon-plots --ribbon_adjust 0.14 --scale 1e9
 ```
-![Example_ribbon_plot](https://github.com/bcgsc/ntSynt-viz/blob/main/tests/great-apes_ribbon-plots.example1.png)
+![Example_ribbon_plot](https://github.com/BirolLab/ntSynt-viz/blob/main/tests/great-apes_ribbon-plots.example1.png)
 
 #### Plot ribbon plots without input cladogram, skipping normalization of the assembly chromosome strands, specifying target (top) genome
 ```
 ntsynt_viz.py --blocks great-apes.ntSynt.synteny_blocks.tsv --fais fais.tsv  --name_conversion great-apes.name-conversions.tsv  --prefix great-apes_ribbon-plots_no-tree --ribbon_adjust 0.15 --scale 1e9 --target-genome Homo_sapiens
 ```
-![Example_ribbon_plot](https://github.com/bcgsc/ntSynt-viz/blob/main/tests/great-apes_ribbon-plots.example2.png)
+![Example_ribbon_plot](https://github.com/BirolLab/ntSynt-viz/blob/main/tests/great-apes_ribbon-plots.example2.png)
 
-For more information about the output files from ntSynt-viz, check out our [wiki page](https://github.com/bcgsc/ntSynt-viz/wiki).
+For more information about the output files from ntSynt-viz, check out our [wiki page](https://github.com/BirolLab/ntSynt-viz/wiki).
 
 ## Using ntSynt-viz with synteny blocks from tools other than ntSynt
-To visualize synteny blocks from synteny block detection tools other than ntSynt, the synteny blocks simply need to be converted to the straightforward [ntSynt format](https://github.com/bcgsc/ntsynt?tab=readme-ov-file#output-files). For convenience, we also provide some scripts to do this conversion in the `conversion_scripts` directory.
+To visualize synteny blocks from synteny block detection tools other than ntSynt, the synteny blocks simply need to be converted to the straightforward [ntSynt format](https://github.com/BirolLab/ntsynt?tab=readme-ov-file#output-files). For convenience, we also provide some scripts to do this conversion in the `conversion_scripts` directory.
 
 ## Citing <a name=citing></a>
 
-Thank you for your [![Stars](https://img.shields.io/github/stars/bcgsc/ntSynt-viz.svg)](https://github.com/bcgsc/ntSynt-viz/stargazers) and for using and promoting this free software! We hope that ntSynt-viz (& ntSynt) is useful to you and your research.
+Thank you for your [![Stars](https://img.shields.io/github/stars/BirolLab/ntSynt-viz.svg)](https://github.com/BirolLab/ntSynt-viz/stargazers) and for using and promoting this free software! We hope that ntSynt-viz (& ntSynt) is useful to you and your research.
 
 
 If you use nSynt-viz, please cite:
