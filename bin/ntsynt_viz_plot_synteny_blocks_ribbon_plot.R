@@ -210,7 +210,8 @@ if (is.null(args$tree)) {
 } else {
   # Prepare the tree
   ntsynt_tree <- treeio::read.newick(args$tree)
-  ntsynt_tree <- phytools::midpoint_root(ntsynt_tree)
+  print(ntsynt_tree)
+
   if (!is.null(args$order)) {
     ntsynt_ggtree <- ggtree(ntsynt_tree, branch.length = "none") # Initial tree to rotate
     orders <- read.csv(args$order, sep = "\t", header = F)
