@@ -35,13 +35,15 @@ if (is.null(treefile$edge.length)) {
   # set all branch lengths to 1
   cat(paste("No edge lengths found in the tree: ", args$nwk, ". Setting all branch lengths to 1.\n", sep=""))
   treefile$edge.length <- rep(1, nrow(treefile$edge))
+  treefile
 }
 
 if (!is.rooted(treefile)) {
   cat("Tree is not rooted. Midpoint rooting the tree.\n")
   treefile <- phytools::midpoint_root(treefile)
+  treefile
 }
-treefile
+
 
 # Rotate the target genome to the top
 rotate_to_top <- function(tree, target) {
