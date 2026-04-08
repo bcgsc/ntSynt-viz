@@ -68,11 +68,31 @@ rotate_to_top <- function(tree, target) {
 
   for (node in parent_nodes) {
     flipnodes <- child(tree$data, node)$node
-    tmp_tree <- ggtree::flip(tree, flipnodes[[1]], flipnodes[[2]])
-    with_rot <- get_clade_position(tmp_tree, which(tmp_tree$data$label == target))$ymin
-    before <- get_clade_position(tree, which(tree$data$label == target))$ymin
-    if (with_rot > before ) {
-      tree <- tmp_tree
+    # If flipnodes is longer than 2, look for rotation which brings target genome to highest ymin position
+    if (length(flipnodes) > 2) {
+      cat(paste("Polytomy detected at node ", node, "\n"), sep="")
+      # Iterate over each pair of nodes, and store the tree with the target genome in the highest ymin position
+      curr_tree <- tree
+      for (i in 1:(length(flipnodes)-1)) {
+        for (j in (i+1):length(flipnodes)) {
+          tmp_tree <- ggtree::flip(tree, flipnodes[i], flipnodes[j])
+          with_rot <- get_clade_position(tmp_tree, which(tmp_tree$data$label == target))$ymin
+          before <- get_clade_position(tree, which(tree$data$label == target))$ymin
+          if (with_rot > before ) {
+            curr_tree <- tmp_tree
+          }
+
+        }
+      }
+      tree <- curr_tree
+    } else {
+      # Bifurcation case, just flip the two nodes
+      tmp_tree <- ggtree::flip(tree, flipnodes[[1]], flipnodes[[2]])
+      with_rot <- get_clade_position(tmp_tree, which(tmp_tree$data$label == target))$ymin
+      before <- get_clade_position(tree, which(tree$data$label == target))$ymin
+      if (with_rot > before ) {
+        tree <- tmp_tree
+      }
     }
   }
   return(tree)
