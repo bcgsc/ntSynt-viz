@@ -227,6 +227,15 @@ if (is.null(args$tree)) {
     new_tree <- rotateConstr(tree_phylo, desired_order)
     new_tree <- rename_taxa(new_tree, name_conversions)
     ntsynt_ggtree <- ggtree(new_tree, branch.length = "none", ladderize = FALSE)
+
+    tip_order_plot <- ntsynt_ggtree$data[ntsynt_ggtree$data$isTip, ] %>%
+      arrange(y) %>%
+      pull(label)
+    if (! identical(tip_order_plot, str_replace_all(desired_order, "_", " "))) {
+      print(tip_order_plot)
+      print(str_replace_all(desired_order, "_", " "))
+      stop("Error: Tip order in the plot does not match the new tree after rotation.")
+    }
   } else {
     ntsynt_tree <- rename_taxa(ntsynt_tree, name_conversions)
     ntsynt_ggtree <- ggtree(ntsynt_tree, branch.length = "none")
