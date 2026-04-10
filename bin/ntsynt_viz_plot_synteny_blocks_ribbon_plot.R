@@ -1,5 +1,6 @@
 #!/usr/bin/env Rscript
 suppressPackageStartupMessages({
+  library(ape)
   library(argparse)
   library(scales)
   library(ggtree)
@@ -213,25 +214,28 @@ if (is.null(args$tree)) {
   print(ntsynt_tree)
 
   if (!is.null(args$order)) {
-    ntsynt_ggtree <- ggtree(ntsynt_tree, branch.length = "none") # Initial tree to rotate
-    orders <- read.csv(args$order, sep = "\t", header = F)
+    orders <- read.csv(args$order, sep = "\t", header = FALSE)
     colnames(orders) <- c("label")
-    named_order_vector <- setNames(1:length(orders$label), rev(orders$label))
-    is_tree_right_order <- identical(names(named_order_vector), as.phylo(ntsynt_ggtree)$tip.label)
-    new_tree <- as.phylo(ntsynt_ggtree)
-    
-    max_iterations <- 100
-    iterations <- 0
-    while (!is_tree_right_order && iterations < max_iterations) {
-      new_tree <- minRotate(new_tree, named_order_vector)
-      is_tree_right_order <- identical(names(named_order_vector), new_tree$tip.label)
-      iterations <- iterations + 1
+    # reverse to ensure target genome is at the top
+    desired_order <- rev(orders$label)
+
+    # Ensure labels match before rotation - sanity check
+    if (!all(desired_order %in% as.phylo(ntsynt_tree)$tip.label)) {
+      stop("Error: Some labels in the order file are not present in the tree.")
     }
-    if (!is_tree_right_order) {
-      stop("Error: Tree could not be reordered within the maximum iterations.")
-    }
+    tree_phylo <- as.phylo(ntsynt_tree)
+    new_tree <- rotateConstr(tree_phylo, desired_order)
     new_tree <- rename_taxa(new_tree, name_conversions)
     ntsynt_ggtree <- ggtree(new_tree, branch.length = "none", ladderize = FALSE)
+
+    tip_order_plot <- ntsynt_ggtree$data[ntsynt_ggtree$data$isTip, ] %>%
+      arrange(y) %>%
+      pull(label)
+    if (! identical(tip_order_plot, str_replace_all(desired_order, "_", " "))) {
+      print(tip_order_plot)
+      print(str_replace_all(desired_order, "_", " "))
+      stop("Error: Tip order in the plot does not match the new tree after rotation.")
+    }
   } else {
     ntsynt_tree <- rename_taxa(ntsynt_tree, name_conversions)
     ntsynt_ggtree <- ggtree(ntsynt_tree, branch.length = "none")
@@ -240,10 +244,12 @@ if (is.null(args$tree)) {
   # Align the plots properly
   synteny_y_range <- ggplot_build(synteny_plot)$layout$panel_params[[1]]$y.range
 
-  plots <- ggarrange(ntsynt_ggtree + scale_y_continuous(limits = synteny_y_range, expand = c(0, 0)),
-                     (synteny_plot %>% pick_by_tree(ntsynt_ggtree)),
-                     common.legend = TRUE, align = "hv",
-                     widths = c(1, 10), legend = "bottom")
+  plots <- ggarrange(
+    ntsynt_ggtree + scale_y_continuous(limits = synteny_y_range, expand = c(0, 0)),
+    (synteny_plot %>% pick_by_tree(ntsynt_ggtree)),
+    common.legend = TRUE, align = "hv",
+    widths = c(1, 10), legend = "bottom"
+  )
 }
 
 any_rc <- length((sequences %>% filter(relative_orientation != ""))$relative_orientation) > 0
