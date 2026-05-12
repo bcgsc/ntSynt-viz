@@ -126,7 +126,6 @@ def get_target_genome_seqs(fai_filename, min_length):
             if length >= min_length:
                 target_genome_seqs[seq_id] = i
                 i += 1
-        
     return target_genome_seqs
 
 
