@@ -227,7 +227,7 @@ rule chrom_sorting:
             fais = sort_fais(input.fais, name_conversion, input.orders)
         else:
             fais = sort_fais_no_name_conversion(input.fais, input.orders)
-        shell(f"ntsynt_viz_sort_sequences.py --fai {fais} --blocks {input.blocks} --lengths {input.sequences} --prefix {prefix} --min-length {min_len}")
+        shell(f"ntsynt_viz_sort_sequences.py --fai {fais} --blocks {input.blocks} --lengths {input.sequences} --prefix {prefix} --min-length {min_seq_length}")
 
 rule chrom_paint:
     input: links = rules.gggenomes_files.output.links
