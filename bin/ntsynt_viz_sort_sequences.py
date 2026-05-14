@@ -115,10 +115,17 @@ def get_mapped_tiles(tree, fai_filenames, tile, asm_orders):
 
     return all_asm_seq_orders
 
-def get_target_genome_seqs(fai_filename):
+def get_target_genome_seqs(fai_filename, min_length):
     "Create dictionary with key sequence name, and value index in the input file"
+    target_genome_seqs = {}
+    i = 0
     with open(fai_filename, 'r', encoding="utf-8") as fin:
-        target_genome_seqs = {line.strip().split("\t")[0]: i for i, line in enumerate(fin)}
+        for line in fin:
+            line = line.strip().split("\t")
+            seq_id, length = line[0], int(line[1])
+            if length >= min_length:
+                target_genome_seqs[seq_id] = i
+                i += 1
     return target_genome_seqs
 
 
@@ -131,6 +138,7 @@ def main():
                         required=True, type=str)
     parser.add_argument("--tile", help="Tile size in bp [1 Mbp]", default=1000000, type=int)
     parser.add_argument("--lengths", help="Sequences lengths gggenomes TSV", required=True, type=str)
+    parser.add_argument("--min-length", help="Minimum sequence length", type=int, default=100000)
     parser.add_argument("--prefix", help="Output file prefix", required=True, type=str)
 
     args = parser.parse_args()
@@ -139,7 +147,7 @@ def main():
 
     asm_seq_orders = get_mapped_tiles(blocks_tree, args.fais, args.tile, asm_orders)
 
-    target_genome_seqs = get_target_genome_seqs(args.fais[0])
+    target_genome_seqs = get_target_genome_seqs(args.fais[0], args.min_length)
 
     with open(args.lengths, 'r', encoding='utf-8') as fin, \
          open(f"{args.prefix}.sequence_lengths.sorted.tsv", 'w', encoding="utf-8") as output_lengths_gggenome, \
